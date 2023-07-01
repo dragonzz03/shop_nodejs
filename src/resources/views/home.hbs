@@ -1,1 +1,25 @@
-<h1>home page</h1>
+<div class="container">
+  <div class="mt-4">
+    <div class="row mt-4">
+      <div class="row">
+        <h3>Categories</h3>
+        <a href="/product/allProduct" class="ms-auto">See all</a>
+      </div>
+      
+    </div>
+    <div class="row">
+      {{#each category}}
+        <div class="col-sm-4 col-lg-2 mt-4">
+          <div class="card">
+            <a href="/product/{{this.slug}}">
+              <img src="{{this.image}}" class="card-img-top" alt="..." />
+            </a>
+            <div class="card-body">
+              <h5 class="card-title">{{this.name}}</h5>
+            </div>
+          </div>
+        </div>
+      {{/each}}
+    </div>
+  </div>
+</div>

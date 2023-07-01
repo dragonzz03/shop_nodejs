@@ -1,0 +1,22 @@
+<div class="mt-4">
+    <h3>Search results for {{nameProduct}}</h3>
+  <div class="row">
+    {{#each product}}
+      <div class="col-sm-6 col-lg-4 mt-4">
+        <div class="card">
+          <a href="productDetails/{{this._id}}">
+            <img src="{{this.image}}" class="card-img-top showProduct" alt="..." data-id="{{this.name}}"/>
+          </a>
+          <div class="card-body">
+            <h5 class="card-title">{{this.name}}</h5>
+            <p class="card-text">Price: {{this.price}} VND</p>
+            <a href="/product/checkout" class="btn btn-primary">Buy now</a>
+          </div>
+        </div>
+      </div>
+      {{else}}
+      <h2 class="text-center">No results found for {{nameProduct}}</h2  >
+    {{/each}}
+
+  </div>
+</div>

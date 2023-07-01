@@ -1,9 +1,8 @@
-const express = require('express')
+const express = require("express")
 const router = express.Router()
-const formContronller = require('../app/controllers/FormControllers')
+const formContronller = require("../app/controllers/FormControllers")
 
-
-router.use('/', formContronller.index)
-
+router.get("/:slug", formContronller.show)
+router.get("/", formContronller.index)
 
 module.exports = router

@@ -1,0 +1,23 @@
+<div class="mt-3">
+  <a href="/product/orderManagement/{{session.id}}">Order management</a>
+</div>
+{{#each cart}}
+  <div class="accordion mt-4" id="accordionExample">
+    <div class="accordion-item">
+      <h2 class="accordion-header" id="headingTwo">
+        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#{{this._id}}" aria-expanded="false" aria-controls="{{this._id}}">
+          <img src="{{this.image}}" alt="Cart Image" class="cart-image">
+          {{this.name}}
+        </button>
+      </h2>
+      <div id="{{this._id}}" class="accordion-collapse collapse" aria-labelledby="headingTwo" data-bs-parent="#accordionExample">
+        <div class="accordion-body">
+          <span>{{this.description}}</span>
+          Quantity
+          <span>{{this.quantityToBuy}}</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+{{/each}}
