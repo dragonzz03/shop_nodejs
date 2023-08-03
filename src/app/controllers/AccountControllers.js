@@ -56,8 +56,7 @@ class AccountControllers {
   //[PATCH] account/changePasswordProcessing
   changePasswordProcessing(req, res, next) {
     AccountDetail.findOne({ accountName: req.body.accountName })
-      .then(
-        (account) =>
+      .then((account) =>
           res.json(
             validateAccountName(account.accountName, req.body.accountName) &&
               validatePassword(account.password, req.body.password) &&

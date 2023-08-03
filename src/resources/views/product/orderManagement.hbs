@@ -1,7 +1,6 @@
 <div class="mt-3">
   <a href="/product/orderManagement/{{session.id}}">Order management</a>
 </div>
-
 {{#each cart}}
   <div class="accordion mt-4" id="accordionExample">
     <div class="accordion-item">
@@ -13,20 +12,11 @@
       </h2>
       <div id="{{this._id}}" class="accordion-collapse collapse" aria-labelledby="headingTwo" data-bs-parent="#accordionExample">
         <div class="accordion-body">
-          <span>{{this.description}}</span><br>
-          Quantity:
+          <span>{{this.description}}</span>
+          Quantity
           <span>{{this.quantityToBuy}}</span>
         </div>
       </div>
-      <button class="btn btn-primary my-auto" id="btnBuy" data-id="{{this._id}}"=""> Buy</button>
     </div>
   </div>
 {{/each}}
-<form method="GET" name="Cart-Form"></form>
-<script>
-    var CartForm = document.forms['Cart-Form'];
-    btnBuy.onclick = function(){
-    CartForm.action = '/product/checkout/';
-    CartForm.submit();
-  }
-</script>

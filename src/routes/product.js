@@ -15,8 +15,8 @@ router.post('/addProductSuscess', ProductController.addProductSuscess);
 router.get('/searchResults', ProductController.searchResults);
 
 router.get('/cart', ProductController.cart);
-
-router.post('/checkout', ProductController.checkout);
+    
+router.get('/checkout', ProductController.checkout);
 
 router.post('/addToCart', ProductController.addToCart);
 

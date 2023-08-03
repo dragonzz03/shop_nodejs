@@ -21,13 +21,9 @@
         <td>{{this.image}}</td>
         <td>{{this.createdAt}}</td>
         <td><a href="updateCategory/{{this._id}}/editCategory" class="btn btn-link">Edit</a></td>
-        <td><a
-            href="updateCategory/{{this._id}}/deleteCategory"
-            class="btn btn-link"
-            data-bs-toggle="modal"
-            data-bs-target="#delete-category-modal"
-            data-id="{{this._id}}"
-          >Delete</a></td>
+        <td><a href="updateCategory/{{this._id}}/deleteCategory" class="btn btn-link" data-bs-toggle="modal" data-bs-target="#delete-category-modal" data-id="{{this._id}}">
+            Delete
+        </a></td>
       </tr>
       {{else}}
       <tr>

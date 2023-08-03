@@ -1,12 +1,13 @@
 const Product = require('../model/Products');
 const Cart = require('../model/Cart');
+const Users = require('../model/AccountDetails')
 
 const { 
   mutipleMongooseToObject,
   MongooseToObject
- 
+
 } = require('../../util/mongoose');
-const session = require('express-session');
+
 class ProductController {
   index(req, res, next) {
     Product.find({ type: req.params.type })
@@ -68,16 +69,13 @@ class ProductController {
 
   addToCart(req, res, next) {
     var cartInfo = req.body
-    res.json(cartInfo)
-    // var newQuantity = req.body.quantity - req.body.quantityToBuy
-    // cartInfo.newQuantity = newQuantity
-    // cartInfo.idUser = req.session.idUser
-    // const addProductToCart = new Cart(cartInfo)
-    // Promise.all([Product.updateOne({_id: req.body.idProduct}, {quantity: newQuantity}),addProductToCart.save()])
-    //   .then(() =>{
-    //     res.redirect('/product/cart')
-    //   })
-    //   .catch(next);
+    cartInfo.idUser = req.session.idUser
+    const addProductToCart = new Cart(cartInfo)
+    addProductToCart.save()
+      .then(() =>{
+        res.redirect('/product/cart')
+      })
+      .catch(next);
   }
 
   cart(req, res, next) {
@@ -96,8 +94,23 @@ class ProductController {
   }
 
   checkout(req, res, next) {
-    res.json(req.body)
-    // res.render('product/checkOut')
+    var product = req.query
+    // res.json(cartInfo)
+
+    // var newQuantity = req.body.quantity - req.body.quantityToBuy
+    // cartInfo.newQuantity = newQuantity
+    // cartInfo.idUser = req.session.idUser
+    // const addProductToCart = new Cart(cartInfo)
+    Users.findById({_id: req.session.idUser})
+      .then((User) =>{
+        res.render('product/checkOut', {
+          User: MongooseToObject(User),
+          product,
+
+        })
+      })
+      .catch(next);
+    
   }
 
   orderManagement(req, res, next) {
