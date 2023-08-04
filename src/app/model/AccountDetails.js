@@ -15,4 +15,4 @@ const AccountDetail = new Schema({
   createdAt: { type: Date, default: Date.now },
   updateAt: { type: Date, default: Date.now },
 })
-module.exports = mongoose.model("AccountDetails", AccountDetail)
+module.exports = mongoose.model("AccountDetails", AccountDetail);

@@ -4,23 +4,27 @@
             <img src="{{product.image}}" class="card-img-top showProduct" alt="..." data-id="{{product.name}}"/>
         </div>
 </div>
-<div class="col-sm-6 col-lg-6 mt-4">
-  <div class="">
-    <form action="/product/purchaseProcessing" method="GET" class="row g-3 needs-validation" name="Cart-Form">
-      <input name="idProduct" value="{{product._id}}" style="display: none;">
-      <input name="quantity" value="{{product.quantity}}" style="display: none;">
-      <input name="description" value="{{product.description}}" style="display: none;">
-      <input name="name" value="{{product.name}}" style="display: none;">
-      <input name="image" value="{{product.image}}" style="display: none;">
-      <input name="price" value="{{product.price}}" style="display: none;">
-      <h5 class="card-title">{{product.name}}</h5>
-      <h2 class="card-text">Check Out</h1>
-      <p class="card-text">Name: {{User.name}}</p>
-      <p class="card-text">Address: {{User.address}}</p>
-      <p class="card-text" name="description">Description: {{product.description}}</p>
-      <p class="card-text">Quantity to buy: {{product.quantityToBuy}}</p>
-      <p class="card-text">Price: {{product.price}} VND</p>
-      <button class="btn btn-primary" id="btnBuy">Buy now</button>    
+  <div class="col-sm-6 col-lg-6 mt-4">
+    <div class="">
+      <form action="/product/purchaseProcessing" method="GET" class="row g-3 needs-validation" name="Cart-Form">
+        <h2 class="card-text">Check Out</h2>
+        <input name="idProduct" value="{{product.idProduct}}" style="display: none;">
+        <input name="quantity" value="{{product.quantity}}" style="display: none;">
+        <input name="quantityToBuy" value="{{product.quantityToBuy}}" style="display: none;">
+        <input name="description" value="{{product.description}}" style="display: none;">
+        <input name="name" value="{{product.name}}" style="display: none;">
+        <input name="image" value="{{product.image}}" style="display: none;">
+        <input name="idOwner" value="{{product.idOwner}}" style="display: none;">
+        <input name="price" value="{{product.price}}" style="display: none;">
+        <input name="idCustomer" value="{{User._id}}" style="display: none;">
+        <input name="address" value="{{User.address}}" style="display: none;">
+        <h5 class="card-title">{{product.name}}</h5>
+        <p class="card-text" name="iduser" >Name: {{User.name}}</p>
+        <p class="card-text">Address: {{User.address}}</p>
+        <p class="card-text" name="description">Description: {{product.description}}</p>
+        <p class="card-text">Quantity to buy: {{product.quantityToBuy}}</p>
+        <p class="card-text">Price: {{product.price}} VND</p>
+        <button class="btn btn-primary" id="btnBuy" type="submit">Buy now</button>    
       </form> 
     </div>
   </div>

@@ -61,10 +61,12 @@
   var categoryId;
   var deleteForm = document.forms['Delete-Hidden-Category']
   var exampleModal = document.getElementById('delete-category-modal')
+
   exampleModal.addEventListener('show.bs.modal', function (event) {
   var button = event.relatedTarget; 
   categoryId = button.getAttribute('data-id'); 
   })
+  
   deleteCategory.onclick = function(){
     deleteForm.action = '/admin/' +  categoryId + '/?_method=DELETE';
     deleteForm.submit();

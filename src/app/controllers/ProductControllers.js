@@ -1,6 +1,7 @@
 const Product = require('../model/Products');
 const Cart = require('../model/Cart');
-const Users = require('../model/AccountDetails')
+const User = require('../model/AccountDetails')
+const OrderManagement = require('../model/OrderManagement')
 
 const { 
   mutipleMongooseToObject,
@@ -95,13 +96,15 @@ class ProductController {
 
   checkout(req, res, next) {
     var product = req.query
-    // res.json(cartInfo)
+
 
     // var newQuantity = req.body.quantity - req.body.quantityToBuy
     // cartInfo.newQuantity = newQuantity
     // cartInfo.idUser = req.session.idUser
     // const addProductToCart = new Cart(cartInfo)
-    Users.findById({_id: req.session.idUser})
+
+
+    User.findById({_id: req.session.idUser})
       .then((User) =>{
         res.render('product/checkOut', {
           User: MongooseToObject(User),
@@ -109,8 +112,21 @@ class ProductController {
 
         })
       })
-      .catch(next);
+      .catch((next) =>{
+        res.redirect('/account/signIn')
+      });
     
+  }
+
+  purchaseProcessing(req, res, next) {
+    const orderManagement = new OrderManagement(req.query);
+    var newQuantity = req.query.quantity - req.query.quantityToBuy
+
+    Promise.all([orderManagement.save(), Product.updateOne({_id:req.query.idProduct}, {quantity: newQuantity})])
+      .then(() =>{
+        res.redirect('/product/cart')
+      })
+      .catch(next);
   }
 
   orderManagement(req, res, next) {

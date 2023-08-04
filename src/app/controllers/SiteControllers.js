@@ -1,6 +1,6 @@
-const { mutipleMongooseToObject } = require("../../util/mongoose")
+const { mutipleMongooseToObject } = require("../../util/mongoose");
 
-const Categories = require("../model/Categories")
+const Categories = require("../model/Categories");
 
 const Product = require('../model/Products');
 class SiteController {
@@ -15,4 +15,4 @@ class SiteController {
   }
 }
 
-module.exports = new SiteController()
+module.exports = new SiteController();
