@@ -7,12 +7,14 @@ const { MongooseToObject } = require('../../util/mongoose');
 const alert = require('alert');
 
 class AccountControllers {
-  //Sign in
+  
+  //[GET] account/signIn
   formSignIn(req, res, next) {
     res.render('account/signIn', {
       display: 'none'
     });
   }
+
   //[POST] account/signInProcess
   signInProcessing(req, res, next) {
     AccountDetail.findOne({ accountName: req.body.accountName })
@@ -30,13 +32,14 @@ class AccountControllers {
         .catch((err) => [alert("sign in fail"), res.redirect("/account/signIn")])
   }
 
-  //Sign up
+  //[GEt] account/signUp
   formSignUp(req, res, next) {
     res.render('account/signUp',{
       display: 'none'
     });
   }
-  //Sign Up Processing
+
+  //[]POST] account/signUpProcessing
   signUpProcessing(req, res, next) {
     const formData = req.body;
     formData.permission = 'customer';
@@ -53,6 +56,7 @@ class AccountControllers {
       display: 'none'
     });
   }
+
   //[PATCH] account/changePasswordProcessing
   changePasswordProcessing(req, res, next) {
     AccountDetail.findOne({ accountName: req.body.accountName })
@@ -69,12 +73,14 @@ class AccountControllers {
       .catch(next);
   }
 
+  //[GET] account/forgetPassword
   forgetPass(req, res, next) {
     res.render('account/forgetPass',{
       display: 'none'
     });
   }
 
+  //[GET] account/logout
   logout(req, res, next) {
     req.session.destroy();
     res.redirect("/")

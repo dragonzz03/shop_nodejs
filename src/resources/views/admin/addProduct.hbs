@@ -1,5 +1,5 @@
 <div class="mt-4">
-  <form method="POST" action="/admin/addProductSuscess">
+  <form method="POST" action="/product/addProductSuscess">
     <div class="row">
       <div class="col-lg-4 col-sm-12">
         <div class="mb-3">
@@ -10,7 +10,14 @@
       <div class="col-lg-4 col-sm-12">
         <div class="mb-3">
           <label for="type" class="form-label">Type</label>
-          <input type="text" class="form-control" id="type" name="type" />
+          {{!-- <input type="text" class="form-control" id="type" name="type" /> --}}
+          <select id="selectType" class="form-select" aria-label="Default select example" onchange="updateinput();">
+            <option selected>Select product type</option>
+            {{#each type}}
+            <option value="{{this.slug}}">{{this.name}}</option>
+            {{/each}}
+          </select>
+          <input type="hidden" name="type" id="typeInput">
         </div>
       </div>
       <div class="col-lg-4 col-sm-12">
@@ -43,3 +50,11 @@
     <button type="submit" class="btn btn-primary">Add Product</button>
   </form>
 </div> 
+
+<script type="text/javascript">
+  function updateinput(){
+    var e = document.getElementById("selectType");
+    var Selected = e.options[e.selectedIndex].value;
+    document.getElementById("typeInput").value=Selected;
+  }
+</script>   

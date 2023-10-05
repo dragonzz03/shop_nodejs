@@ -14,7 +14,15 @@ class AdminControllers {
   }
   //[GET] admin/addProduct
   addProduct(req, res) {
-    res.render('admin/addProduct');
+    Categories.find({})
+     .then((type) =>
+     res.json(type.name)
+      // res.render('admin/addProduct',{
+      // type: mutipleMongooseToObject(type)
+     //}
+     //)
+     )
+     .catch(next);
   }
   //[POST] admin/addProductSuscess
   addProductSuscess(req, res, next) {
