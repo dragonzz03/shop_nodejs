@@ -33,7 +33,8 @@
     "mongoose": "^6.8.0",
     "mongoose-delete": "^0.5.4",
     "mongoose-slug-generator": "^1.0.4",
-    "morgan": "^1.10.0"
+    "morgan": "^1.10.0",
+    "router": "^1.3.8"
   },
   "devDependencies": {
     "cookie-parser": "^1.4.6",
