@@ -1,39 +1,47 @@
-<div class="mt-4">
-  <h3>Trash</h3>
-  <a href="/admin/updateCategory">Back to category list</a>
+<div class="container">
+  <div class="row">
+    {{> adminListItem}}
+    <div class="col-lg-9">  
+      <div class="mt-4">
+        <h3>Trash</h3>
+        <a href="/admin/updateCategory">Back to category list</a>
+      </div>
+      <table class="table">
+        <thead>
+          <tr>
+            <th scope="col">#</th>
+            <th scope="col">Name</th>
+            <th scope="col">Image</th>
+            <th scope="col">CreatAt</th>
+            <th scope="col">DeleteAt</th>
+          </tr>
+        </thead>
+        <tbody>
+          {{#each categories}}
+            <tr>
+              <th scope="row">{{sum @index 1}}</th>
+              <td>{{this.name}}</td>
+              <td>{{this.image}}</td>
+              <td>{{this.createdAt}}</td>
+              <td>{{this.deletedAt}}</td>
+              <td><a href="" class="btn btn-link btn-restore" data-id="{{this._id}}">Restore</a></td>
+              <td><a href="updateCategory/{{this._id}}/deleteCategory" class="btn btn-link" data-bs-toggle="modal"
+                  data-bs-target="#delete-category-modal" data-id="{{this._id}}">Destroy</a></td>
+            </tr>
+            {{else}}
+            <tr>
+              <td colspan="6" class="text-center">
+                Empty trash can
+                <a href="updateCategory">Category list</a>
+              </td>
+            </tr>
+          {{/each}}
+        </tbody>
+      </table>
+    </div>
+  </div>
 </div>
-<table class="table">
-  <thead>
-    <tr>
-      <th scope="col">#</th>
-      <th scope="col">Name</th>
-      <th scope="col">Image</th>
-      <th scope="col">CreatAt</th>
-      <th scope="col">DeleteAt</th>
-    </tr>
-  </thead>
-  <tbody>
-    {{#each categories}}
-      <tr>
-        <th scope="row">{{sum @index 1}}</th>
-        <td>{{this.name}}</td>
-        <td>{{this.image}}</td>
-        <td>{{this.createdAt}}</td>
-        <td>{{this.deletedAt}}</td>
-        <td><a href="" class="btn btn-link btn-restore" data-id="{{this._id}}">Restore</a></td>
-        <td><a href="updateCategory/{{this._id}}/deleteCategory" class="btn btn-link" data-bs-toggle="modal"
-            data-bs-target="#delete-category-modal" data-id="{{this._id}}">Destroy</a></td>
-      </tr>
-      {{else}}
-      <tr>
-        <td colspan="6" class="text-center">
-          Empty trash can
-          <a href="updateCategory">Category list</a>
-        </td>
-      </tr>
-    {{/each}}
-  </tbody>
-</table>
+
 {{!-- Modal --}}
 <div class="modal fade" id="delete-category-modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog">

@@ -6,8 +6,9 @@ const Comment = new Schema({
   nameUser: { type: String },
   imageUser: { type: String },
   idProduct: { type: String },  
-  comment: { type: String },
+  commentContent: { type: String },
   createdAt: { type: Date, default: Date.now },
   updateAt: { type: Date, default: Date.now },
 });
+
 module.exports = mongoose.model('Comments', Comment);

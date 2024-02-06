@@ -3,6 +3,7 @@ const router = express.Router();
 const ProductController = require('../app/controllers/ProductControllers');
 
 //Order Management router
+router.delete('/orderManagement/deleteOrderedProducts/:idProductDelete', ProductController.deleteOrderedProducts);
 router.use('/orderManagement/:id', ProductController.orderManagement);
 
 //Show Product router
@@ -17,12 +18,16 @@ router.post('/addProductSuscess', ProductController.addProductSuscess);
 router.get('/searchResults', ProductController.searchResults);
 
 //Cart router
+router.post('/cart/buy/:idProduct', ProductController.checkOutFromCart)
+router.post('/cart/like/:idProduct', ProductController.likeFromCart)
+router.post('/cart/delete/:idProduct', ProductController.deleteCartProduct)
+router.post('/addToCart/:idProduct/:quantityToBuy', ProductController.addToCart);
 router.get('/cart', ProductController.cart);
-router.post('/addToCart', ProductController.addToCart);
+
 
 //Purchase Processing router
-router.get('/checkout', ProductController.checkout);
-router.get('/purchaseProcessing', ProductController.purchaseProcessing);
+router.get('/checkout/:idProduct/:quantityToBuy', ProductController.checkOut);
+router.post('/purchaseProcessing', ProductController.purchaseProcessing);
 
 //Show Type Product router
 router.get('/:type', ProductController.index);

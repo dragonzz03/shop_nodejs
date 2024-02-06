@@ -1,4 +1,42 @@
-<div class="container">
+<div class="container mt-3">
+  <div id="carouselExampleCaptions" class="carousel slide" data-bs-ride="carousel">
+    <div class="carousel-indicators">
+      <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+      <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="1" aria-label="Slide 2"></button>
+      <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="2" aria-label="Slide 3"></button>
+    </div>
+    <div class="carousel-inner">
+      <div class="carousel-item active">
+        <img src="img/banner-image3.jpg" class="d-block w-100" alt="...">
+        <div class="carousel-caption d-none d-md-block">
+          <h5>First slide label</h5>
+          <p>Some representative placeholder content for the first slide.</p>
+        </div>
+      </div>
+      <div class="carousel-item">
+        <img src="img/selling-products14.jpg" class="d-block w-100" alt="...">
+        <div class="carousel-caption d-none d-md-block">
+          <h5>Second slide label</h5>
+          <p>Some representative placeholder content for the second slide.</p>
+        </div>
+      </div>
+      <div class="carousel-item">
+        <img src="img/banner-image4.jpg" class="d-block w-100" alt="...">
+        <div class="carousel-caption d-none d-md-block">
+          <h5>Third slide label</h5>
+          <p>Some representative placeholder content for the third slide.</p>
+        </div>
+      </div>
+    </div>
+    <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide="prev">
+      <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+      <span class="visually-hidden">Previous</span>
+    </button>
+    <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide="next">
+      <span class="carousel-control-next-icon" aria-hidden="true"></span>
+      <span class="visually-hidden">Next</span>
+    </button>
+  </div>
   <div class="mt-4">
     <div class="row mt-4">
       <div class="row">
@@ -21,4 +59,91 @@
       {{/each}}
     </div>
   </div>
+
+  {{!-- Product recommendation --}}
+  <div class="mt-4">
+    <div class="row mt-4">
+      <div class="row">
+        <h3>Recommentation</h3>
+      </div>
+    </div>
+    <div class="row">
+      {{#each recomment}}
+        <div class="col-sm-6 col-lg-4 mt-4">
+        <div class="card">
+          <a href="product/productDetails/{{this._id}}">
+            <img src="{{this.image}}" class="card-img-top showProduct" alt="..." data-id="{{this.name}}"/>
+          </a>
+          <div class="card-body">
+            <h5 class="card-title">{{this.name}}</h5>
+            <p class="card-text">Quantity: {{this.quantity}}</p>
+            {{#times this.evaluate}}
+              <i class="bi bi-star-fill star-evaluate"></i>
+            {{/times}}
+            <p class="card-text">Price: {{this.price}} VND</p>
+          </div>
+        </div>
+      </div>
+      {{/each}}
+    </div>
+  </div>
 </div>
+
+<!-- Biểu tượng khung chat -->
+  <button id="chat-icon">&#9998;</button>
+<!-- Cửa sổ nhắn tin -->
+<div id="chat-window">
+  <div id="chat-header">Chatbot</div>
+  <div id="chat-body"></div>
+  <div id="input-container">
+    <input type="text" id="message-input" placeholder="Type your message">
+    <button id="send-button">Send</button>
+  </div>
+</div>
+
+<script>
+  const chatIcon = document.getElementById('chat-icon');
+  const chatWindow = document.getElementById('chat-window');
+  const chatBody = document.getElementById('chat-body');
+  const messageInput = document.getElementById('message-input');
+  const sendButton = document.getElementById('send-button');
+
+  chatIcon.addEventListener('click', () => {
+    chatWindow.style.display = (chatWindow.style.display === 'none' || chatWindow.style.display === '') ? 'block' : 'none';
+  });
+
+  sendButton.addEventListener('click', () => {
+    const userMessage = messageInput.value;
+    displayMessage('You', userMessage);
+
+    // Simulate chatbot response
+    const chatbotResponse = getChatbotResponse(userMessage);
+    displayMessage('Chatbot', chatbotResponse);
+
+    // Scroll to the bottom of the chat window
+    chatBody.scrollTop = chatBody.scrollHeight;
+
+    // Clear the input field
+    messageInput.value = '';
+  });
+
+  function displayMessage(sender, message) {
+    const messageElement = document.createElement('div');
+    messageElement.innerHTML = `<strong>${sender}:</strong> ${message}`;
+    chatBody.appendChild(messageElement);
+  }
+
+  function getChatbotResponse(userMessage) {
+    // Simulate a simple chatbot logic
+    const responses = {
+      "Hello": "Hello! How can I help you?",
+      "How are you": "I'm just a computer program, but thanks for asking!",
+      "What's your name": "You can call me Chatbot.",
+      "Bye": "Goodbye! Have a great day!",
+    };
+
+    // Return a response based on the user's message
+    return responses[userMessage] || "I'm sorry, I don't understand.";
+  }
+</script>
+

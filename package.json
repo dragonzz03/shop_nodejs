@@ -25,10 +25,12 @@
   "homepage": "https://github.com/dragonzz03/shop_nodejs#readme",
   "dependencies": {
     "alert": "^5.1.4",
+    "bootstrap-icons": "^1.11.3",
     "cookie-session": "^2.0.0",
     "express-handlebars": "^6.0.6",
     "jquery": "^3.7.0",
     "jquey": "^0.0.1-security",
+    "mathjs": "^12.2.1",
     "method-override": "^3.0.0",
     "mongoose": "^6.8.0",
     "mongoose-delete": "^0.5.4",
@@ -43,7 +45,7 @@
     "husky": "^8.0.2",
     "lint-staged": "^13.1.0",
     "node-sass": "^8.0.0",
-    "nodemon": "^2.0.20",
+    "nodemon": "^3.0.2",
     "prettier": "^2.8.1"
   }
 }

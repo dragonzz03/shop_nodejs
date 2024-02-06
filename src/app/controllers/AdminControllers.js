@@ -1,29 +1,39 @@
 const Categories = require('../model/Categories');
 const Product = require('../model/Products');
+const AccountDetail = require('../model/AccountDetails');
+const Comments = require('../model/Comment');
 const { mutipleMongooseToObject } = require('../../util/mongoose');
 const { MongooseToObject } = require('../../util/mongoose');
 
+
 class AdminControllers {
+  
   //[GET] admin
   index(req, res) {
-    res.render('admin/admin');
+    AccountDetail.find()
+      .then((account) => {
+        res.render('admin/admin',{
+          account: mutipleMongooseToObject(account)
+        });
+      })
   }
+
   //[GET] admin/createCategory
   createCategory(req, res) {
     res.render('admin/createCategory');
   }
+
   //[GET] admin/addProduct
-  addProduct(req, res) {
+  addProduct(req, res, next) {
     Categories.find({})
      .then((type) =>
-     res.json(type.name)
-      // res.render('admin/addProduct',{
-      // type: mutipleMongooseToObject(type)
-     //}
-     //)
+      res.render('admin/addProduct',{
+        type: mutipleMongooseToObject(type)
+      })
      )
      .catch(next);
   }
+
   //[POST] admin/addProductSuscess
   addProductSuscess(req, res, next) {
     const product = new Product(req.body);
@@ -32,6 +42,7 @@ class AdminControllers {
       .then(() => res.redirect('/'))
       .catch(next);
   }
+
   //[GET] admin/createCategory/success
   success(req, res, next) {
     const categories = new Categories(req.query);
@@ -40,6 +51,7 @@ class AdminControllers {
       .then(() => res.redirect('/'))
       .catch(next);
   }
+
   //[GET] admin/updateCategory
   updateCategory(req, res, next) {
     Promise.all([Categories.find({}),Categories.countDocumentsDeleted()])
@@ -51,10 +63,10 @@ class AdminControllers {
   )
   .catch(next);
   }
+
   //[GET] admin//updateCategory/:id/editCategory
   editCategory(req, res, next) {
     Categories.findById(req.params.id)
-
       .then((category) =>
         res.render('admin/formEditCategory', {
           category: MongooseToObject(category),
@@ -68,6 +80,7 @@ class AdminControllers {
       .then(() => res.redirect('/admin/updateCategory'))
       .catch(next);
   }
+
   //[DELETE] admin/:id/
   deleteCategory(req, res, next) {
     Categories.delete({ _id: req.params.id })
@@ -85,17 +98,37 @@ class AdminControllers {
       )
       .catch((err) => {});
   }
+
   //[PATCH] /admin/:id/restore
   restore(req, res, next) {
     Categories.restore({ _id: req.params.id })
       .then(() => res.redirect('back'))
       .catch(next);
   }
+
   //[DELETE] admin/:id/force
   forcedeleteCategory(req, res, next) {
     Categories.deleteOne({ _id: req.params.id })
       .then(() => res.redirect('back'))
       .catch(next);
+  }
+
+  advertisement(req, res, next) {
+    res.render('advertisement/addAdvertisement')
+  }
+
+  advertisementProcessing(req, res, next) {
+    res.render('advertisement/advertisement')
+  }
+
+  //[GET] admin/commentManagement
+  commentManagement(req, res, next) {
+    Comments.find()
+    .then((comment) =>{
+      res.render('admin/comment', {
+        comment: mutipleMongooseToObject(comment)
+      })
+    })
   }
 }
 

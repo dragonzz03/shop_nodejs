@@ -17,7 +17,12 @@ router.patch("/changePasswordProcess", AccountControllers.changePasswordProcessi
 //Forget password router
 router.get("/forgetPassword", AccountControllers.forgetPass)
 
+router.get("/profile", AccountControllers.profile)
+
 //Log out router
 router.use("/logOut", AccountControllers.logout)
+
+router.use("/decentralization", AccountControllers.decentralization)
+router.patch("/decentralizationProcess", AccountControllers.decentralizationProcess)
 
 module.exports = router

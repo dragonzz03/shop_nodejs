@@ -46,6 +46,15 @@ app.engine(
     extname: '.hbs',
     helpers: {
       sum: (a, b) => a + b,
+      total: (a, b) => a*b,
+      times: (n, block) => {
+        let accum = '';
+        for (let i = 0; i < n; ++i) {
+          accum += block.fn(i);
+        }
+        return accum;
+      
+      }
     },
   })
 );

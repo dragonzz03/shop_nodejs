@@ -1,53 +1,63 @@
-<div class="mt-4">
+<div class="container register">
   <form method="POST" action="/account/signUpProcess">
     <div class="row">
-      <div class="col-lg-4 col-sm-12">
-        <div class="mb-3">
-          <label for="name" class="form-label">Full Name</label>
-          <input type="text" class="form-control" id="name" name="name" />
-        </div>
+      <div class="col-md-3 register-left">
+        <img src="https://image.ibb.co/n7oTvU/logo_white.png" alt=""/>
+        <h3>Welcome</h3>
+        <p>You are 30 seconds away from earning your own money!</p>
+        <input type="submit" name="" value="Login"/><br/>
       </div>
-      <div class="col-lg-4 col-sm-12">
-        <div class="mb-3">
-          <label for="address" class="form-label">Address</label>
-          <input type="text" class="form-control" id="address" name="address" />
-        </div>
-      </div>
-      <div class="col-lg-4 col-sm-12">
-        <div class="mb-3">
-          <label for="image" class="form-label">Image </label>
-          <input type="text" class="form-control" id="image" name="image" />
-        </div>
+      <div class="col-md-9 register-right">
+        <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
+          <h3 class="register-heading">Apply as a Employee</h3>
+          <div class="row register-form">
+              <div class="col-md-6">
+                <div class="form-group">
+                    <input type="text" class="form-control" placeholder="Enter your account *" id="accountName" name="accountName" />
+                </div>
+                <div class="form-group">
+                    <input type="text" class="form-control" placeholder="Enter your address *" id="address" name="address" />
+                </div>
+                <div class="form-group">
+                    <input type="text" class="form-control" placeholder="Enter your name *" id="name" name="name" />
+                </div>
+                <div class="form-group">
+                    <input type="password" class="form-control" placeholder="Password *" id="password" name="password"/>
+                </div>
+                <div class="form-group">
+                    <input type="password" class="form-control" placeholder="Confirm Password *" id="rePassword" name="rePassword" />
+                </div>
+                <div class="form-group">
+                    <div class="maxl">
+                        <label class="radio inline"> 
+                            <input type="radio" name="gender" value="male" checked>
+                            <span> Male </span> 
+                        </label>
+                        <label class="radio inline"> 
+                            <input type="radio" name="gender" value="female">
+                            <span>Female </span> 
+                        </label>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group">
+                    <input type="number" class="form-control" placeholder="Your age *"  name="age" min="0" max="150"/>
+                </div>
+                <div class="form-group">
+                    <input type="text" minlength="10" maxlength="10" name="txtEmpPhone" class="form-control" placeholder="Your Phone *" name="numberPhone" />
+                </div>
+                <div class="form-group">
+                    <input type="email" class="form-control" placeholder="Your email *"  name="email"/>
+                </div>
+                <div class="form-group">
+                    <input type="text" class="form-control" placeholder="Your image *" name="image" />
+                </div>
+                <input type="submit" class="btnRegister"  value="Register"/>
+            </div>
+          </div>
+        </div>    
       </div>
     </div>
-    <div class="row">
-      <div class="col-lg-6 col-sm-12">
-        <div class="mb-3">
-          <label for="accountName" class="form-label">Account Name</label>
-          <input type="text" class="form-control" id="accountName" name="accountName"/>
-        </div>
-      </div>
-      <div class="col-lg-6 col-sm-12">
-        <div class="mb-3">
-          <label for="email" class="form-label">Email</label>
-          <input type="email" class="form-control" id="email" name="email" />
-        </div>
-      </div>
-    </div>
-    <div class="row">
-      <div class="col-lg-6 col-sm-12">
-        <div class="mb-3">
-          <label for="password" class="form-label">Password</label>
-          <input type="password" class="form-control" id="password" name="password"/>
-        </div>
-      </div>
-      <div class="col-lg-6 col-sm-12">
-        <div class="mb-3">
-          <label for="rePassword" class="form-label">Re-Password</label>
-          <input type="password" class="form-control" id="rePassword" />
-        </div>
-      </div>
-    </div>
-    <button type="submit" class="btn btn-primary">Sign Up</button>
   </form>
 </div>

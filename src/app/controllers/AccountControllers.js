@@ -42,7 +42,7 @@ class AccountControllers {
   //[]POST] account/signUpProcessing
   signUpProcessing(req, res, next) {
     const formData = req.body;
-    formData.permission = 'customer';
+    
     const signUpProcessing = new AccountDetail(formData);
     signUpProcessing
       .save()
@@ -67,7 +67,6 @@ class AccountControllers {
               !validatePassword(req.body.newPassword, req.body.password) &&
               validatePassword(req.body.newPassword, req.body.reNewPassword)
           )
-
         //res.alert('Update failure'),
       )
       .catch(next);
@@ -79,11 +78,33 @@ class AccountControllers {
       display: 'none'
     });
   }
+  //[GET] account/profile
+  profile(req, res, next) {
+    AccountDetail.findOne({_id: req.session.idUser})
+    .then((account) =>{
+      res.render('account/profile',{
+        account: MongooseToObject(account)
+      });
+
+    })
+    .catch(next)
+    
+  }
 
   //[GET] account/logout
   logout(req, res, next) {
     req.session.destroy();
     res.redirect("/")
+  }
+  //[]account/decentralization
+  decentralization(req, res, next) {
+   res.render('account/decentralization')
+  }
+  //[POST]account/decentralizationProcess
+  decentralizationProcess(req, res, next) {
+    AccountDetail.updateOne({ _id: req.session.idUser }, req.body)
+    .then(() => res.redirect('/'))
+    .catch(next);
   }
 }
 

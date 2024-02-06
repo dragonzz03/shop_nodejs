@@ -1,41 +1,47 @@
-<div class="mt-4">
-  <h3>Category</h3>
-  <a href="/admin/trash">Trash {{deletedCount}}</a>
+<div class="container">
+  <div class="row">
+    {{> adminListItem}}
+    <div class="col-lg-9">
+      <div class="mt-4">
+        <h3>Category</h3>
+        <a href="/admin/trash">Trash {{deletedCount}}</a>
+      </div>
+      <table class="table">
+        <thead>
+          <tr>
+            <th scope="col">#</th>
+            <th scope="col">Name</th>
+            <th scope="col">Image</th>
+            <th scope="col">Created</th>
+            <th scope="col">Update</th>
+            <th scope="col">Delete</th>
+          </tr>
+        </thead>
+        <tbody>
+          {{#each categories}}
+            <tr>
+              <th scope="row">{{sum @index 1}}</th>
+              <td>{{this.name}}</td>
+              <td>{{this.image}}</td>
+              <td>{{this.createdAt}}</td>
+              <td><a href="updateCategory/{{this._id}}/editCategory" class="btn btn-link">Edit</a></td>
+              <td><a class="btn btn-link" data-bs-toggle="modal" data-bs-target="#delete-category-modal" data-id="{{this._id}}">
+                  Delete
+              </a></td>
+            </tr>
+            {{else}}
+            <tr>
+              <td colspan="6" class="text-center">
+                Empty Data 
+                <a href="createCategory">Add Data</a>
+              </td>
+            </tr>
+          {{/each}}
+        </tbody>
+      </table>
+    </div>
+  </div>
 </div>
-<table class="table">
-  <thead>
-    <tr>
-      <th scope="col">#</th>
-      <th scope="col">Name</th>
-      <th scope="col">Image</th>
-      <th scope="col">Created</th>
-      <th scope="col">Update</th>
-      <th scope="col">Delete</th>
-    </tr>
-  </thead>
-  <tbody>
-    {{#each categories}}
-      <tr>
-        <th scope="row">{{sum @index 1}}</th>
-        <td>{{this.name}}</td>
-        <td>{{this.image}}</td>
-        <td>{{this.createdAt}}</td>
-        <td><a href="updateCategory/{{this._id}}/editCategory" class="btn btn-link">Edit</a></td>
-        <td><a href="updateCategory/{{this._id}}/deleteCategory" class="btn btn-link" data-bs-toggle="modal" data-bs-target="#delete-category-modal" data-id="{{this._id}}">
-            Delete
-        </a></td>
-      </tr>
-      {{else}}
-      <tr>
-        <td colspan="6" class="text-center">
-          Empty Data 
-          <a href="createCategory">Add Data</a>
-        </td>
-      </tr>
-    {{/each}}
-  </tbody>
-</table>
-<!-- Button trigger modal -->
 
 <!-- Modal -->
 <div class="modal fade" id="delete-category-modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -56,6 +62,9 @@
     </div>
   </div>
 </div>
+
+
+
 <form name="Delete-Hidden-Category" method="POST"></form>
 <script>
   var categoryId;
@@ -63,8 +72,8 @@
   var exampleModal = document.getElementById('delete-category-modal')
 
   exampleModal.addEventListener('show.bs.modal', function (event) {
-  var button = event.relatedTarget; 
-  categoryId = button.getAttribute('data-id'); 
+    var button = event.relatedTarget; 
+    categoryId = button.getAttribute('data-id'); 
   })
   
   deleteCategory.onclick = function(){

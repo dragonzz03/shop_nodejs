@@ -1,13 +1,23 @@
-<div class="mt-4">
-  <form method="POST" action="/admin/{{category._id}}/editCategoryProcess?_method=PUT">
-    <div class="mb-3">
-      <label for="category" class="form-label">The name of the category</label>
-      <input type="text" class="form-control" value="{{category.name}}" id="category" name="name"/>
+<div class="container">
+  <div class="row">
+    {{> adminListItem}}
+    <div class="col-lg-9"> 
+      <div class="mt-4">
+        <form method="POST" action="/admin/{{category._id}}/editCategoryProcess?_method=PUT">
+          <div class="mb-3">
+            <label for="category" class="form-label">The name of the category</label>
+            <input type="text" class="form-control" value="{{category.name}}" id="category" name="name"/>
+          </div>
+          <div class="mb-3">
+            <label for="image" class="form-label">Image</label>
+            <input type="text" class="form-control" value="{{category.image}}" id="image" name="image"/>
+          </div>
+          <button type="submit" class="btn btn-primary">Edit</button>
+        </form>
+      </div>
     </div>
-    <div class="mb-3">
-      <label for="image" class="form-label">Image</label>
-      <input type="text" class="form-control" value="{{category.image}}" id="image" name="image"/>
-    </div>
-    <button type="submit" class="btn btn-primary">Edit</button>
-  </form>
+  </div>
 </div>
+
+
+
