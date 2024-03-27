@@ -12,8 +12,15 @@ router.get('/updateCategory', AdminControllers.updateCategory);
 router.get('/createCategory/success', AdminControllers.success);
 router.get('/createCategory', AdminControllers.createCategory);
 
+//Create Advertisement Management router
+router.get('/advertisementManagement/success', AdminControllers.advertisementProcessing);
+router.get('/advertisementManagement', AdminControllers.advertisement);
+
 //Trash router
 router.get('/trash', AdminControllers.trash);
+
+//Trash router
+router.get('/commentManagement', AdminControllers.commentManagement);
 
 //Add Product router
 router.get('/addProduct', AdminControllers.addProduct);

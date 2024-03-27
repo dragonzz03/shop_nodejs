@@ -1,6 +1,7 @@
 <nav class="navbar navbar-expand-lg navbar-light navbar-light-blue mt-2">
   <div class="container">
-    <a class="navbar-brand" href="/">QShop</a>
+    <i class="bi bi-bag-check-fill logo-shop me-2"></i>
+    <a class="navbar-brand" href="/"><strong class="brand">QShop</strong></a>
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
       aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
@@ -9,21 +10,19 @@
       <ul class="navbar-nav ms-auto">
         <div class="search container " style="display:{{display}};">
           <form class="d-flex" action="/product/searchResults" method="GET">
-            <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search" name="nameProduct"/>
-            <button class="btn btn-outline-success" type="submit">Search</button>
+            <input class="form-control me-2 search-product" type="search" placeholder="Search" aria-label="Search" name="nameProduct"/>
+            <button class="btn btn-light" type="submit"><i class="bi bi-search"></i> Search</button>
           </form>
         </div>
       {{#if session.accountName}}
         <div class="cart-icon mt-2">
           <a href="/product/cart">
-            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-bag-check-fill" viewBox="0 0 16 16">
-              <path fill-rule="evenodd" d="M10.5 3.5a2.5 2.5 0 0 0-5 0V4h5v-.5zm1 0V4H15v10a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V4h3.5v-.5a3.5 3.5 0 1 1 7 0zm-.646 5.354a.5.5 0 0 0-.708-.708L7.5 10.793 6.354 9.646a.5.5 0 1 0-.708.708l1.5 1.5a.5.5 0 0 0 .708 0l3-3z"/>
-            </svg>
+            <i class="bi bi-bag-check-fill cart-icon"></i>
           </a>
         </div>
        {{/if}}
         <li class="nav-item dropdown">
-          <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+          <a class="nav-link dropdown-toggle name" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
             {{#if session.accountName}}
               <img src="{{session.image}}" alt="..." class="user-avt"               >
               {{session.accountName}}
@@ -32,7 +31,9 @@
           <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
             {{#if session.accountName}}
               <li><a class="dropdown-item" href="/product/addProduct">Post products for sale</a></li>
+              <li><a class="dropdown-item" href="/account/decentralization">Register as a service provider</a></li>
               <li><a class="dropdown-item" href="/account/logOut">Log out</a></li>
+              <li><a class="dropdown-item" href="/account/profile">Profile</a></li>
             {{else}}
               <li><a class="dropdown-item" href="/account/signIn">Sign in</a></li>
             {{/if}}
@@ -48,3 +49,4 @@
     </div>
   </div>
 </nav>
+

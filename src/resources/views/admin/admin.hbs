@@ -1,23 +1,50 @@
-<div class="row mt-2">
-  <div class="col-lg-2 col-sm-3">
-    <a href="/admin/createCategory" class="btn btn-primary">Create new category</a>
-  </div>
-  <div class="col-lg-2 col-sm-3">
-    <a href="/admin/updateCategory" class="btn btn-primary">Update category</a>
-  </div>
-  <div class="col-lg-2 col-sm-3">
-    <a href="/admin/addProduct" class="btn btn-primary">Add Product</a>
-  </div>
-  <div class="col-lg-2 col-sm-3">
-    <a href="/admin/productManagement" class="btn btn-primary">Product management</a>
-  </div>
-  <div class="col-lg-2 col-sm-3">
-    <a href="/admin/userManagement" class="btn btn-primary">User management</a>
-  </div>
-  <div class="col-lg-2 col-sm-3">
-    <a href="/admin/orderManagement" class="btn btn-primary">Order management</a>
-  </div>
-  <div class="col-lg-2 col-sm-3 pt-2">
-    <a href="/admin/commentMnagement" class="btn btn-primary">Comment management</a>
+
+
+<div class="container">
+  <div class="row">
+    {{> adminListItem}}
+    <div class="col-lg-9">
+      <table class="table">
+        <thead>
+          <tr>
+            <th scope="col">#</th>
+            <th scope="col">Name</th>
+            <th scope="col">Image</th>
+            <th scope="col">Created</th>
+            <th scope="col">Address</th>
+            <th scope="col">Delete</th>
+          </tr>
+        </thead>
+        <tbody>
+          {{#each account}}
+            <tr>
+              <th scope="row">{{sum @index 1}}</th>
+              <td>{{this.name}}</td>
+              <td><img src="{{this.image}}" alt="" class="user-avt"></td>
+              <td>{{this.createdAt}}</td>
+              <td>{{this.address}}</td>
+              <td>
+                  <a href="updateAccount/{{this._id}}/deleteAccount" class="btn btn-link" data-bs-toggle="modal" data-bs-target="#delete-account-modal" data-id="{{this._id}}">
+                  <i class="bi bi-trash3-fill"></i>
+                  </a>
+                </td>
+            </tr>
+            {{else}}
+            <tr>
+              <td colspan="6" class="text-center">
+                Empty Data 
+                <a href="createCategory">Add Data</a>
+              </td>
+            </tr>
+          {{/each}}
+        </tbody>
+      </table>  
+    </div>
   </div>
 </div>
+
+
+
+
+
+

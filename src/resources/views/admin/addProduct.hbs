@@ -1,59 +1,65 @@
-<div class="mt-4">
+<div class="container d-flex justify-content-center">
   <form method="POST" action="/product/addProductSuscess">
-    <div class="row">
-      <div class="col-lg-4 col-sm-12">
-        <div class="mb-3">
-          <label for="name" class="form-label">Name</label>
-          <input type="text" class="form-control" id="name" name="name" />
-        </div>
-      </div>
-      <div class="col-lg-4 col-sm-12">
-        <div class="mb-3">
-          <label for="type" class="form-label">Type</label>
-          <select id="selectType" class="form-select" aria-label="Default select example" onchange="updateinput();">
-            <option selected>Select product type</option>
-            {{#each type}}
-            <option value="{{this.slug}}">{{this.name}}</option>
-            {{/each}}
-          </select>
-          <input type="hidden" name="type" id="typeInput">
-        </div>
-      </div>
-      <div class="col-lg-4 col-sm-12">
-        <div class="mb-3">
-          <label for="description" class="form-label">Description </label>
-          <input type="text" class="form-control" id="description" name="description" />
-        </div>
+    <div class="card-addProduct mx-1 mb-5">
+      <div class="card-body px-2">
+        <h2 class="card-heading px-3">Add product</h2>
+        <h5 class="card-subheading px-3 pb-3">to post the product you want to sell</h5>
+        <form>
+          <div class="row rone">
+            <div class="form-group col-md-5 fone">
+              <input type="text" class="form-control" id="name" name="name" placeholder="Name product">
+            </div>
+            <div class="form-group col-md-5 ftwo">
+              <input type="number" class="form-control ml-3" placeholder="Quantity" id="quantity" name="quantity" min="0">
+            </div>
+          </div>
+          <div class="row rtwo">
+            <div class="form-group col-md-12 fthree">
+              <input type="text" class="form-control" placeholder="Image of the product" id="image" name="image">
+            </div>
+              <div class="form-group col-md-12 fthree">
+              <select id="selectType" name="type" class="form-select" aria-label="Default select example">
+                <option selected>Select product type</option>
+                {{#each type}}
+                <option value="{{this.slug}}">{{this.name}}</option>
+                {{/each}}
+              </select>
+            </div>
+          </div>
+          <div class="row rthree">
+            <div class="form-group col-md-5 ffive">
+              <input type="number" class="form-control ml-3" placeholder="Price" id="price" name="price" >
+            </div>
+            <div class="row rone">
+            <div class="form-group col-md-5 fone">
+              <select name="targetGender" id="" class="form-select" style="width: 150px;">
+                <option selected>
+                  Target Gender
+                  </option>
+                <option value="male">
+                  Male
+                </option>
+                <option value="female">
+                  Female
+                </option>
+              </select>
+            </div>
+            <div class="form-group col-md-5 ftwo">
+              <input type="number" class="form-control ml-3"  id="targetAge" name="targetAge" min="0" placeholder="Target Age">
+            </div>
+          </div>
+            <div class="form-group col-md-12 fthree">
+        
+              <textarea name="description" id="description" class="form-control" placeholder="Describe your product"></textarea>
+            </div>
+          </div>
+          <div class="row rfour">
+            <div class="col-md-4 ml-3">
+              <button type="submit" class="btn btn-primary mt-3"><span>Post</span></button>
+            </div>
+          </div>
+        </form>
       </div>
     </div>
-    <div class="row">
-      <div class="col-lg-4 col-sm-12">
-        <div class="mb-3">
-          <label for="quantity" class="form-label">Quantity</label>
-          <input type="text" class="form-control" id="quantity" name="quantity"/>
-        </div>
-      </div>
-      <div class="col-lg-4 col-sm-12">
-        <div class="mb-3">
-          <label for="image" class="form-label">Image</label>
-          <input type="text" class="form-control" id="image" name="image" />
-        </div>
-      </div>
-       <div class="col-lg-4 col-sm-12">
-        <div class="mb-3">
-          <label for="price" class="form-label">Price</label>
-          <input type="number" class="form-control" id="price" name="price"/>
-        </div>
-      </div>
-    </div>  
-    <button type="submit" class="btn btn-primary">Add Product</button>
   </form>
-</div> 
-
-<script type="text/javascript">
-  function updateinput(){
-    var e = document.getElementById("selectType");
-    var Selected = e.options[e.selectedIndex].value;
-    document.getElementById("typeInput").value=Selected;
-  }
-</script>   
+</div>
