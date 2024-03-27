@@ -1,10 +1,11 @@
 const AccountDetail = require('../model/AccountDetails');
+const Product = require('../model/Products');
 const {
   validateAccountName,
   validatePassword,
 } = require('../../util/validateAccount');
-const { MongooseToObject } = require('../../util/mongoose');
-const alert = require('alert');
+const { MongooseToObject, mutipleMongooseToObject } = require('../../util/mongoose');
+
 
 class AccountControllers {
   
@@ -17,19 +18,65 @@ class AccountControllers {
 
   //[POST] account/signInProcess
   signInProcessing(req, res, next) {
+    if (req.body.accountName == 'admin' && req.body.password  == '1') {
+      res.redirect('/admin')
+      
+    } 
+    else{
     AccountDetail.findOne({ accountName: req.body.accountName })
-        .then((account) =>
-          validateAccountName(account.accountName, req.body.accountName) &&
-          validatePassword(account.password, req.body.password)
-            ? [
-                req.session.accountName = account.name,
-                req.session.image = account.image,
-                req.session.idUser = account._id,
-                res.redirect("/"),
-              ]
-            : [alert("sign in fail"), res.redirect("/account/signIn")]
-        ) //account is not defined
-        .catch((err) => [alert("sign in fail"), res.redirect("/account/signIn")])
+        .then((account) =>{
+
+          if (validateAccountName(account.accountName, req.body.accountName) && validatePassword(account.password, req.body.password)) 
+          {
+            if (account.status == 'banned') {
+              res.render('account/signIn', {
+                alert: true,
+                message: 'Your account has been banned',
+                atag: 'Click here to see the reason',
+                href: '/account/signUp',
+                type: '-danger'
+              }) 
+              return false
+            }
+            else {
+              req.session.accountName = account.name
+              req.session.image = account.image
+              req.session.idUser = account._id
+              if(account.permission == 'seller'){
+                req.session.role = true
+                req.session.hasPost = true
+              }else if (account.permission == 'transporter'){
+                req.session.role = true
+                req.session.hasPost = false
+              }else{
+                req.session.role = false
+                req.session.hasPost = false
+              }
+              res.redirect("/")
+            }
+          }
+          else{
+            res.render('account/signIn', {
+              alert: true,
+              message: 'Incorrect password',
+              atag: 'Click here to recover password',
+              href: '/account/signUp',
+              type: '-warning'
+
+            })
+          }     
+        }
+        ) //account is not defined}
+        .catch((err) => {
+          res.render('account/signIn', {
+            alert: true,
+            message : 'Incorrect account - Do you have an account yet?',
+            atag: 'Click here to register',
+            href: '/account/signUp',
+            type: '-warning'
+          })
+        })
+      }
   }
 
   //[GEt] account/signUp
@@ -80,10 +127,25 @@ class AccountControllers {
   }
   //[GET] account/profile
   profile(req, res, next) {
-    AccountDetail.findOne({_id: req.session.idUser})
-    .then((account) =>{
+    Promise.all([AccountDetail.findOne({_id: req.session.idUser}),Product.find({author: req.session.idUser})])
+    
+    .then(([account, product]) =>{
       res.render('account/profile',{
-        account: MongooseToObject(account)
+        account: MongooseToObject(account),
+        product: mutipleMongooseToObject(product)
+      });
+
+    })
+    .catch(next)
+    
+  }
+
+  personalService(req, res, next) {
+    Promise.all([AccountDetail.findOne({_id: req.session.idUser}),Product.find({author: req.session.idUser})])
+    .then(([account, product]) =>{
+      res.render('aboutMe/serviceManagement',{
+        account: MongooseToObject(account),
+        product: mutipleMongooseToObject(product)
       });
 
     })

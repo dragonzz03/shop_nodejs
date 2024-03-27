@@ -23,16 +23,6 @@ class AdminControllers {
     res.render('admin/createCategory');
   }
 
-  //[GET] admin/addProduct
-  addProduct(req, res, next) {
-    Categories.find({})
-     .then((type) =>
-      res.render('admin/addProduct',{
-        type: mutipleMongooseToObject(type)
-      })
-     )
-     .catch(next);
-  }
 
   //[POST] admin/addProductSuscess
   addProductSuscess(req, res, next) {
@@ -130,6 +120,31 @@ class AdminControllers {
       })
     })
   }
+  banAccountProcess(req, res, next) {
+    switch (req.query._type) {
+      case 'banAccount':
+        AccountDetail.updateOne({ _id: req.params.idAccount }, {status: 'banned'})
+        .then(()=>{
+          res.redirect('back')
+        })
+        .catch(next)
+        
+        break;
+      case 'removeBanAccount':
+        AccountDetail.updateOne({ _id: req.params.idAccount }, {status: 'active'})
+        .then(()=>{
+          res.redirect('back')
+        })
+        .catch(next)
+        
+        break;
+    
+      default:
+        break;
+    }
+    
+  }
+
 }
 
 module.exports = new AdminControllers();

@@ -1,6 +1,5 @@
 const { mutipleMongooseToObject } = require("../../util/mongoose");
 const Categories = require("../model/Categories");
-const OrderManagement = require('../model/OrderManagement');
 const Product = require('../model/Products');
 const RecommendProductsProcess = require('../../util/recomment');
 const Evaluate = require('../model/Evaluates');
@@ -8,7 +7,6 @@ const AccountDetail = require('../model/AccountDetails');
 
 class SiteController {
   index(req, res, next) {
-
     var userId;
     const numberOfRecommendations = 5;
     var recommendedProducts;

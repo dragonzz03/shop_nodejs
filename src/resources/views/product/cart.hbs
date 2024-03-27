@@ -1,160 +1,171 @@
 
 <section class="h-100 gradient-custom">
-  <div class="container py-5">
-    <div class="row d-flex justify-content-center my-4">
-      <div class="col-md-8">
-        <div class="card mb-4">
-          <div class="card-header py-3">
-            <h5 class="mb-0">Cart</h5>
-          </div>
-          <div class="mt-3 ms-3">
-          <a href="/product/orderManagement/{{session.idUser}}">Order management</a>
-        </div>
-          <div class="form-check mt-4 ms-5">
-            <input class="form-check-input" type="checkbox" value="" id="flexCheckIndeterminate">
-            <label class="form-check-label" for="flexCheckIndeterminate">
-              Select all 
-            </label>
-          </div>
-
-          <hr class="my-4" >
-
-          <div class="card-body">
-            <!-- Single item -->
-            {{#each cart}}
-            <div class="row mx-2">
-              <div class="col-lg-3 col-md-12 mb-4 mb-lg-0 ">
-                <input class="form-check-input " name="cartIds[]" type="checkbox" value="{{this._id}}" id="Check-Box-Cart" >
-                <!-- Image -->
-                <div class="bg-image hover-overlay hover-zoom ripple rounded" data-mdb-ripple-color="light">
-                  <img src="{{this.image}}"
-                    class="w-100" alt="{{this.name}}" />
-                  <a href="#!">
-                    <div class="mask" style="background-color: rgba(251, 251, 251, 0.2)"></div>
-                  </a>
-                </div>
-                <!-- Image -->
-              </div>
-
-              <div class="col-lg-5 col-md-6 mb-4 mb-lg-0">
-                <!-- Data -->
-                <p data-id="{{this.id}}"><strong>{{this.name}}</strong></p>
-                <p>Color: blue</p>
-                <p>Size: M</p>
-                <button type="button" class="btn btn-primary btn-sm me-1 mb-2 btnDelete" data-mdb-toggle="tooltip"
-                 data-id="{{this._id}}"
-                 data-bs-toggle="modal" data-bs-target="#delete-product-modal" 
-                  title="Remove item" value="{{this._id}}">
-                  <i class="bi bi-trash3"></i>
-                </button>
-                <button type="button" class="btn btn-danger btn-sm mb-2 me-1 btnInteractionCart" data-mdb-toggle="tooltip"
-                 data-id="{{this._id}}" value="like"
-                  title="Move to the wish list">
-                  <i class="bi bi-suit-heart"></i>
-                </button>
-                <button type="button" class="btn btn-danger btn-sm mb-2 btnInteractionCart" data-mdb-toggle="tooltip"
-                 data-id="{{this._id}}" data-newQuantity="{{this.quantityToBuy}}" value="buy"
-                  title="Move to the wish list">
-                  <i class="bi bi-bag-fill"></i>
-                </button>
-                <!-- Data -->
-              </div>
-
-              <div class="col-lg-4 col-md-6 mb-4 mb-lg-0">
-                <!-- Quantity -->
-                <div class="d-flex mb-4" style="max-width: 300px">
-                  <button class="btn btn-primary px-3 me-2 btn-cart"
-                    onclick="this.parentNode.querySelector('input[type=number]').stepDown()">
-                    <i class="bi bi-dash-circle-fill"></i>
-                  </button>
-
-                  <!-- Quantity -->
-                  <div class="form-outline">
-                    <input id="quantityToBuy" min="0" name="quantity" value="{{this.quantityToBuy}}" 
-                    type="number" onchange="updateInputValue(this)"
-                    class="form-control quantityToBuy" />
-                    <label class="form-label" for="form1">Quantity</label>
-                  </div>
-
-                  <button class="btn btn-primary px-3 ms-2 btn-cart"
-                    onclick="this.parentNode.querySelector('input[type=number]').stepUp()">
-                    <i class="bi bi-plus-circle-fill"></i>
-                  </button>
-                </div>
-                
-
-                <!-- Price -->
-                <p class="text-start text-md-center">
-                  <strong>${{this.price}}</strong>
-                </p>
-             
-              </div>
+  
+    <div class="container py-5">
+      <div class="row d-flex justify-content-center my-4">
+        <div class="col-md-8">
+          <div class="card mb-4">
+            <div class="card-header py-3">
+              <h5 class="mb-0">Cart</h5>
             </div>
-       
-            <hr class="my-4" >
-            {{/each }}
+            <div class="mt-3 ms-3">
+            <a href="/product/orderManagement/{{session.idUser}}">Order management</a>
+          </div>
+            <div class="form-check mt-4 ms-5">
+              <input class="form-check-input" type="checkbox" value="" id="checkbox-all">
+              <label class="form-check-label" for="checkbox-all">
+                Select all 
+              </label>
+              <button type="submit" id="deleteItemChecked" class="btn btn-primary btn-sm me-1 mb-2" 
+              data-bs-toggle="modal" data-bs-target="#delete-product-modal" disabled >
+                <i class="bi bi-trash3"></i>
+              </button>
+              <button type="submit" id="buyItemChecked" class="btn btn-danger btn-sm mb-2 btnInteractionCart" value="buy" disabled
+                title="Move to the wish list">
+                <i class="bi bi-bag-fill"></i>
+              </button>
+            </div>
 
-            <!-- Payment methods -->
-          </div>
-        </div>
-        <div class="card mb-4">
-          <div class="card-body">
-            <p><strong>Expected shipping delivery</strong></p>
-            <p class="mb-0">12.10.2020 - 14.10.2020</p>
-          </div>
-        </div>
-        <div class="card mb-4 mb-lg-0">
-          <div class="card-body">
-            <p><strong>We accept</strong></p>
-            <img class="me-2" width="45px"
-              src="https://mdbcdn.b-cdn.net/wp-content/plugins/woocommerce-gateway-stripe/assets/images/visa.svg"
-              alt="Visa" />
-            <img class="me-2" width="45px"
-              src="https://mdbcdn.b-cdn.net/wp-content/plugins/woocommerce-gateway-stripe/assets/images/amex.svg"
-              alt="American Express" />
-            <img class="me-2" width="45px"
-              src="https://mdbcdn.b-cdn.net/wp-content/plugins/woocommerce-gateway-stripe/assets/images/mastercard.svg"
-              alt="Mastercard" />
-            <i class="bi bi-paypal"></i>
-          </div>
-        </div>
-      </div>
-      <div class="col-md-4">
-        <div class="card mb-4">
-          <div class="card-header py-3">
-            <h5 class="mb-0">Summary</h5>
-          </div>
-          <div class="card-body">
-            <ul class="list-group list-group-flush">
-              <li
-                class="list-group-item d-flex justify-content-between align-items-center border-0 px-0 pb-0">
-                Products
-                <span>$ 0</span>
-              </li>
-              <li class="list-group-item d-flex justify-content-between align-items-center px-0">
-                Shipping
-                <span>0</span>
-              </li>
-              <li
-                class="list-group-item d-flex justify-content-between align-items-center border-0 px-0 mb-3">
-                <div>
-                  <strong>Total amount</strong>
-                  <strong>
-                    <p class="mb-0">(including VAT)</p>
-                  </strong>
+            <hr class="my-4" >
+
+            <div class="card-body">
+              <!-- Single item -->
+              {{#each cart}}
+              <div class="row mx-2">
+                <div class="col-lg-3 col-md-12 mb-4 mb-lg-0 ">
+                  <input class="form-check-input " id="{{this._id}}" name="cartIds" type="checkbox" value="{{this._id}}" >
+                  <!-- Image -->
+                  <div class="bg-image hover-overlay hover-zoom ripple rounded" data-mdb-ripple-color="light">
+                    <img src="{{this.image}}"
+                      class="w-100" alt="{{this.name}}" />
+                    <a href="#!">
+                      <div class="mask" style="background-color: rgba(251, 251, 251, 0.2)"></div>
+                    </a>
+                  </div>
+                  <!-- Image -->
                 </div>
-                <span><strong>$ 0</strong></span>
-              </li>
-            </ul>
-            <button type="button" class="btn btn-primary btn-lg btn-block">
-              Go to checkout
-            </button>
+
+                <div class="col-lg-5 col-md-6 mb-4 mb-lg-0">
+                  <!-- Data -->
+                  <p data-id="{{this.id}}"><strong>{{this.name}}</strong></p>
+                  <p>Color: blue</p>
+                  <p>Size: M</p>
+                  <button type="button"  class="btn btn-primary btn-sm me-1 mb-2 btnDelete" data-mdb-toggle="tooltip"
+                  data-id="{{this._id}}"
+                  data-bs-toggle="modal" data-bs-target="#delete-product-modal" 
+                    title="Remove item" value="{{this._id}}">
+                    <i class="bi bi-trash3"></i>
+                  </button>
+                  <button type="button" class="btn btn-danger btn-sm mb-2 me-1 btnInteractionCart" data-mdb-toggle="tooltip"
+                  data-id="{{this._id}}" value="like"
+                    title="Move to the wish list">
+                    <i class="bi bi-suit-heart"></i>
+                  </button>
+                  <button type="button" class="btn btn-danger btn-sm mb-2 btnInteractionCart" data-mdb-toggle="tooltip"
+                  data-id="{{this._id}}" data-newQuantity="{{this.quantityToBuy}}" value="buy"
+                    title="Move to the wish list">
+                    <i class="bi bi-bag-fill"></i>
+                  </button>
+                  <!-- Data -->
+                </div>
+
+                <div class="col-lg-4 col-md-6 mb-4 mb-lg-0">
+                  <!-- Quantity -->
+                  <div class="d-flex mb-4" style="max-width: 300px">
+                    <button class="btn btn-primary px-3 me-2 btn-cart"
+                      onclick="this.parentNode.querySelector('input[type=number]').stepDown()">
+                      <i class="bi bi-dash-circle-fill"></i>
+                    </button>
+
+                    <!-- Quantity -->
+                    <div class="form-outline">
+                      <input min="0" name="quantity" value="{{this.quantityToBuy}}" 
+                      type="number" onchange="updateInputValue(this)"
+                      class="form-control quantityToBuy" for="{{this._id}}" />
+                      <label class="form-label" for="form1">Quantity</label>
+                    </div>
+
+                    <button class="btn btn-primary px-3 ms-2 btn-cart"
+                      onclick="this.parentNode.querySelector('input[type=number]').stepUp()">
+                      <i class="bi bi-plus-circle-fill"></i>
+                    </button>
+                  </div>
+                  
+
+                  <!-- Price -->
+                  <p class="text-start text-md-center">
+                    <strong>${{this.price}}</strong>
+                  </p>
+              
+                </div>
+              </div>
+        
+              <hr class="my-4" >
+              {{/each }}
+
+              <!-- Payment methods -->
+            </div>
+          </div>
+          <div class="card mb-4">
+            <div class="card-body">
+              <p><strong>Expected shipping delivery</strong></p>
+              <p class="mb-0">12.10.2020 - 14.10.2020</p>
+            </div>
+          </div>
+          <div class="card mb-4 mb-lg-0">
+            <div class="card-body">
+              <p><strong>We accept</strong></p>
+              <img class="me-2" width="45px"
+                src="https://mdbcdn.b-cdn.net/wp-content/plugins/woocommerce-gateway-stripe/assets/images/visa.svg"
+                alt="Visa" />
+              <img class="me-2" width="45px"
+                src="https://mdbcdn.b-cdn.net/wp-content/plugins/woocommerce-gateway-stripe/assets/images/amex.svg"
+                alt="American Express" />
+              <img class="me-2" width="45px"
+                src="https://mdbcdn.b-cdn.net/wp-content/plugins/woocommerce-gateway-stripe/assets/images/mastercard.svg"
+                alt="Mastercard" />
+              <i class="bi bi-paypal"></i>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="card mb-4">
+            <div class="card-header py-3">
+              <h5 class="mb-0">Summary</h5>
+            </div>
+            <div class="card-body">
+              <ul class="list-group list-group-flush">
+                <li
+                  class="list-group-item d-flex justify-content-between align-items-center border-0 px-0 pb-0">
+                  Products
+                  <span>$ 0</span>
+                </li>
+                <li class="list-group-item d-flex justify-content-between align-items-center px-0">
+                  Shipping
+                  <span>0</span>
+                </li>
+                <li
+                  class="list-group-item d-flex justify-content-between align-items-center border-0 px-0 mb-3">
+                  <div>
+                    <strong>Total amount</strong>
+                    <strong>
+                      <p class="mb-0">(including VAT)</p>
+                    </strong>
+                  </div>
+                  <span><strong>$ 0</strong></span>
+                </li>
+              </ul>
+              <button type="submit" id="checkoutSubmitBtn" class="btn btn-primary btn-lg btn-block" disabled>
+                Go to checkout
+              </button>
+            </div>
           </div>
         </div>
       </div>
     </div>
-  </div>
 </section>
+
+<form name="Cart-Form" method="POSt"></form>
 
 {{!-- Delete-Modal --}}
 <div class="modal fade" id="delete-product-modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -170,19 +181,25 @@
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-        <button id="deleteProduct" type="button" class="btn btn-danger">Delete</button>
+        <button id="deleteProductBtn" type="button" class="btn btn-danger">Delete</button>
       </div>
     </div>
   </div>
 </div>
-
-<form id="Cart-Form"></form>
-
 <script>
-  var Cart
+  document.addEventListener('DOMContentLoaded', function(){
   var CartForm = document.forms['Cart-Form'];
-  var productId
+  var CartIds
   var type
+  var quantityValue =[]
+  var checkboxAll = $('#checkbox-all')
+  var allQuantityVal = $('input[name="quantity"]')
+  var deleteModalBtn = $('#deleteProductBtn')
+  var deleteBtn = $('.btnDelete')
+  var deleteItemChecked = $('#deleteItemChecked')
+  var buyItemChecked = $('#buyItemChecked')
+  var checkoutFromCart = $('#checkoutSubmitBtn')
+  var cartItemCheckbox = $('input[name="cartIds"]')
   var buttons = document.querySelectorAll('.btnInteractionCart');
 
     // Click event handler function
@@ -195,16 +212,80 @@
         if (button) {
             // Get the value of the value attribute from the element <button>
             type = button.value;
-            productId = button.getAttribute('data-id')
+            CartIds = button.getAttribute('data-id')
             CartForm.method ='POST'
-            CartForm.action = '/product/cart/' + type + '/' + productId;
+            CartForm.action = '/product/cart/' + type + '/' + CartIds;
             CartForm.submit();
         }  
     }
-
     // Add click event for each button
     buttons.forEach(function(button) {
         button.addEventListener('click', handleClick);
     });
+    // Processed when pressing the delete button
+    deleteBtn.click(function(event){
+     var button = event.target;
+         while (button && button.tagName !== 'BUTTON') {
+            button = button.parentNode;
+        }
+        if (button) {
+          CartIds = button.value
+        }
+    })
+    //Processed when confirming deletion
+    deleteModalBtn.click(function(event){
+      getIdCarts()
+      CartForm.action = '/product/cart/' + CartIds + '/?_method=DELETE';
+      CartForm.submit();
+    })
+    //Handled when the checkboxAll button is pressed
+    checkboxAll.change(function(){
+      var isChecked = $(this).prop('checked')
+      cartItemCheckbox.prop('checked', isChecked)     
+      renderCheckAllSubmit()
+    })
+    //Handled when cartItemCheckbox are clicked
+    cartItemCheckbox.change(function(){
+      var isChecked = cartItemCheckbox.length === cartItemCheckbox.filter(':checked').length
+      //var isChecked = cartItemCheckbox.length === $('input[name="cartIds"]:checked').length
+      checkboxAll.prop('checked', isChecked)
+      renderCheckAllSubmit()
+ 
+    })
+    // Render delete and buy checked button 
+    function renderCheckAllSubmit (){
+      var isChecked = $('input[name="cartIds"]:checked').length
+      if(isChecked ){
+        deleteItemChecked.attr('disabled', false)
+        buyItemChecked.attr('disabled', false)
+        checkoutFromCart.attr('disabled', false)
+      } else {
+        deleteItemChecked.attr('disabled', true)
+        buyItemChecked.attr('disabled', true)
+        checkoutFromCart.attr('disabled', true)
+      }
+    };
+    function getIdCarts(){
+      CartIds = cartItemCheckbox.filter(':checked').map(function() {
+          return $(this).val();
+      }).get();
+    }
+    checkoutFromCart.click(function(e){
+      getIdCarts()
+      cartItemCheckbox.each(function(){
+        if ($(this).is(':checked')) {
+          // Get the value of the corresponding quantity field
+          let value = $('input.quantityToBuy[for="' + $(this).attr('id') + '"]').val()
+          quantityValue.push(value)
+          //var quantityValue = $('input.quantityToBuy[for="' + cartItemCheckbox.attr('id') + '"]').val();
+          }
+      })
 
+      CartForm.method = 'GET'
+      CartForm.action = '/product/cart/checkout/' + CartIds + '/' + quantityValue;
+      CartForm.submit();
+    })
+  }
+  )
+  
 </script>

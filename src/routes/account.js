@@ -17,6 +17,7 @@ router.patch("/changePasswordProcess", AccountControllers.changePasswordProcessi
 //Forget password router
 router.get("/forgetPassword", AccountControllers.forgetPass)
 
+router.get("/profile/personalService", AccountControllers.personalService)
 router.get("/profile", AccountControllers.profile)
 
 //Log out router

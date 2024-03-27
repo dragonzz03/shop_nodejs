@@ -4,6 +4,7 @@ const morgan = require('morgan');
 const { engine } = require('express-handlebars');
 const db = require('./config/db');
 const methodOverride = require('method-override');
+const likeComment = require('./app/middlewares/likeMiddleware')
 
 // Connect to DB
 db.connect();
@@ -16,7 +17,10 @@ const { mongo } = require('mongoose');
 
 //Cookie Session
 const session = require('express-session');
+const cookieParser = require('cookie-parser');
 app.use(session({secret: '130921', resave: true, saveUninitialized: true}))
+app.use(cookieParser());
+
 app.use(function (req, res, next) {
     res.locals.session = req.session;
     next();
@@ -36,6 +40,10 @@ app.use(express.json());
 //Method Override
 app.use(methodOverride('_method'));
 
+//likeCommentMiddleware
+app.use(likeComment)
+
+
 //HTTP logger
 app.use(morgan('combined'));
 
@@ -44,20 +52,14 @@ app.engine(
   'hbs',
   engine({
     extname: '.hbs',
-    helpers: {
-      sum: (a, b) => a + b,
-      total: (a, b) => a*b,
-      times: (n, block) => {
-        let accum = '';
-        for (let i = 0; i < n; ++i) {
-          accum += block.fn(i);
-        }
-        return accum;
-      
-      }
-    },
+    helpers: require('./helpers/handlebars')
   })
 );
+
+
+
+
+
 app.set('view engine', '.hbs');
 app.set('views', path.join(__dirname, 'resources', 'views'));
 

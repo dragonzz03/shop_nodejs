@@ -17,3 +17,10 @@
     </div> 
   </form>
 </div>
+  {{#if alert}}
+      <div class="alert alert{{type}}" role="alert">
+        {{message}} - <a href={{href}}>{{atag}}</a>
+      </div>
+  {{/if}}
+
+

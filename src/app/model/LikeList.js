@@ -1,11 +1,21 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
+
+const infoLikeList = new Schema({
+  idComment: { type: String },
+  type: { type: String },
+},
+{
+  _id: false,
+})
+
 const LikeList = new Schema({
   idUser: { type: String },
-  idProduct: { type: String },  
-  createdAt: { type: Date, default: Date.now },
-  updateAt: { type: Date, default: Date.now },
+  listLikeComment: { type: Map, of: infoLikeList },
 });
 
-module.exports = mongoose.model('LikeListes', LikeList);
+
+
+
+module.exports = mongoose.model('LikeLists', LikeList);

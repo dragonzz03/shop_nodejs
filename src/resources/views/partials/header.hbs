@@ -24,13 +24,17 @@
         <li class="nav-item dropdown">
           <a class="nav-link dropdown-toggle name" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
             {{#if session.accountName}}
-              <img src="{{session.image}}" alt="..." class="user-avt"               >
+              <img src="{{session.image}}" alt="..." class="user-avt" >
+              {{!-- {{idUser}}               --}}
               {{session.accountName}}
             {{/if}}
           </a>
           <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
             {{#if session.accountName}}
-              <li><a class="dropdown-item" href="/product/addProduct">Post products for sale</a></li>
+            
+              {{#if session.hasPost}}
+                <li><a class="dropdown-item" href="/product/addProduct">Post products for sale</a></li>
+              {{/if}}
               <li><a class="dropdown-item" href="/account/decentralization">Register as a service provider</a></li>
               <li><a class="dropdown-item" href="/account/logOut">Log out</a></li>
               <li><a class="dropdown-item" href="/account/profile">Profile</a></li>

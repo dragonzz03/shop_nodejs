@@ -1,6 +1,8 @@
 const express = require('express');
 const router = express.Router();
 const AdminControllers = require('../app/controllers/AdminControllers');
+// Ban account router
+router.put('/banAccount/:idAccount', AdminControllers.banAccountProcess);
 
 //Edit Categoty router
 router.put('/:id/editCategoryProcess', AdminControllers.editCategoryProcessing);
@@ -23,7 +25,6 @@ router.get('/trash', AdminControllers.trash);
 router.get('/commentManagement', AdminControllers.commentManagement);
 
 //Add Product router
-router.get('/addProduct', AdminControllers.addProduct);
 router.post('/addProductSuscess', AdminControllers.addProductSuscess);
 
 //Delete and Restore router

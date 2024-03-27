@@ -7,8 +7,13 @@ const Comment = new Schema({
   imageUser: { type: String },
   idProduct: { type: String },  
   commentContent: { type: String },
+  like: { type: Number, default: 0 },
+  dislike: { type: Number, default: 0 },
+  type: { type: String , default: 'default'},  
   createdAt: { type: Date, default: Date.now },
   updateAt: { type: Date, default: Date.now },
 });
+
+
 
 module.exports = mongoose.model('Comments', Comment);

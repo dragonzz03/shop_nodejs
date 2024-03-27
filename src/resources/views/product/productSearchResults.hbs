@@ -9,13 +9,16 @@
           </a>
           <div class="card-body">
             <h5 class="card-title">{{this.name}}</h5>
-            <p class="card-text">Price: {{this.price}} $</p>
-            <a href="/product/checkout" class="btn btn-primary">Buy now</a>
+            <p class="card-text">Quantity: {{this.quantity}}</p>
+            {{#times this.evaluate}}
+              <i class="bi bi-star-fill star-evaluate"></i>
+            {{/times}}
+            <p class="card-text">Price: <strong>{{this.price}} $</strong></p>
           </div>
         </div>
       </div>
       {{else}}
-      <h2 class="text-center">No results found for {{nameProduct}}</h2  >
+      <h2 class="text-center">No results found for {{nameProduct}}</h2>
     {{/each}}
   </div>
 </div>

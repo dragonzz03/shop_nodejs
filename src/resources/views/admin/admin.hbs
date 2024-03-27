@@ -12,7 +12,8 @@
             <th scope="col">Image</th>
             <th scope="col">Created</th>
             <th scope="col">Address</th>
-            <th scope="col">Delete</th>
+            <th scope="col">Status</th>
+            <th scope="col">Ban</th>
           </tr>
         </thead>
         <tbody>
@@ -23,11 +24,15 @@
               <td><img src="{{this.image}}" alt="" class="user-avt"></td>
               <td>{{this.createdAt}}</td>
               <td>{{this.address}}</td>
+              <td>{{this.status}}</td>
               <td>
-                  <a href="updateAccount/{{this._id}}/deleteAccount" class="btn btn-link" data-bs-toggle="modal" data-bs-target="#delete-account-modal" data-id="{{this._id}}">
-                  <i class="bi bi-trash3-fill"></i>
-                  </a>
-                </td>
+                <a href="" 
+                   class="btn btn-link" 
+                   data-bs-toggle="modal" 
+                   data-bs-target="#{{showUpdateStatusAccountBtn this.status 'modalBtn'}}" 
+                   data-id="{{this._id}}">{{showUpdateStatusAccountBtn this.status 'textBtn'}}
+                </a>
+              </td>
             </tr>
             {{else}}
             <tr>
@@ -42,6 +47,79 @@
     </div>
   </div>
 </div>
+
+<!-- Ban Modal -->
+<div class="modal fade" id="ban-account-modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Ban account</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"
+        ></button>
+      </div>
+      <div class="modal-body">
+        Are you sure you want to ban this account?
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        <button id="banAccount" type="button" class="btn btn-danger">Ban</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!--Remove Ban Modal -->
+<div class="modal fade" id="remove-ban-account-modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Remove ban account</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"
+        ></button>
+      </div>
+      <div class="modal-body">
+        Are you sure you want to remove ban this account?
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        <button id="removeBanAccount" type="button" class="btn btn-danger">Remove Ban</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+<form name="Ban-Hidden-Form" method="POST"></form>
+
+<script>
+  var idAccount;
+  var banForm = document.forms['Ban-Hidden-Form']
+  var banAccountModal = document.getElementById('ban-account-modal')
+  var removeBanAccountModal = document.getElementById('remove-ban-account-modal')
+
+  banAccountModal.addEventListener('show.bs.modal', function (event) {
+    let button = event.relatedTarget; 
+    idAccount = button.getAttribute('data-id'); 
+  })
+
+  removeBanAccountModal.addEventListener('show.bs.modal', function (event) {
+    let button = event.relatedTarget; 
+    idAccount = button.getAttribute('data-id'); 
+  })
+  
+  banAccount.onclick = function(e){
+    banForm.action = '/admin/banAccount/' +  idAccount + '/?_type=banAccount&&_method=PUT';
+    banForm.submit();
+  }
+
+  removeBanAccount.onclick = function(e){
+    banForm.action = '/admin/banAccount/' +  idAccount + '/?_type=removeBanAccount&&_method=PUT';
+    banForm.submit();
+  }
+
+</script>
 
 
 
