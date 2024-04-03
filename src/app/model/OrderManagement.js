@@ -1,7 +1,5 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
-
-
 const OrderManagement = new Schema({
   idCustomer: { type: String },
   idProduct: { type: String },
@@ -16,6 +14,4 @@ const OrderManagement = new Schema({
   quantityToBuy: { type: Number },
   createdAt: { type: Date, default: Date.now },
 });
-
-
 module.exports = mongoose.model('OrderManagements', OrderManagement);

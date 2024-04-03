@@ -1,0 +1,92 @@
+<div class="container mt-5">
+  <div class="wrapper wrapper-content animated fadeInRight">
+    <div class="row">
+      <div class="col-md-12">
+        <div class="ibox">
+          <div class="ibox-title">  
+            <span class="pull-right">(<strong>{{numberOfOrders}}</strong>) items</span>
+            <h5>Purchase manager</h5>
+          </div>
+          {{#each listUnprocessedOrder}}
+          <div class="ibox-content">
+            <div class="table-responsive">
+              <table class="table shoping-cart-table">
+                <tbody>
+                    <tr>
+                      <td width="140">
+                          <img src="{{this.image}}" alt="Cart Image" class="cart-image" style="width: 100px;">
+                      </td>
+                      <td class="desc">
+                          <h3>
+                          <a href="#" class="text-navy">
+                              {{this.name}}
+                          </a>
+                          </h3>
+                          <dl class="small m-b-none" style="max-width: 300px;">
+                              <dt>Description lists</dt>
+                              <dd>{{this.description}}</dd>
+                          </dl>
+                          <div class="m-t-sm">
+                              <a href="#" class="text-muted" data-bs-toggle="modal" data-bs-target="#exampleModal" data-bs-whatever="Your review about {{this.name}}" 
+                              data-id="{{this.idProduct}}"><i class="bi bi-check-square-fill"></i> <strong>Confirm</strong></a>
+                              |
+                              <a href="#" class="text-muted" data-bs-toggle="modal" data-bs-target="#delete-product-modal" 
+                              data-id-product-delete="{{this._id}}"><i class="bi bi-x-circle-fill"> </i><strong>Refuse</strong></a>
+                          </div>
+                      </td>
+                      <td class="desc">
+                          <span>Customer's name:{{this.nameCustomer}}</span>
+                          <p>Status: <strong>{{this.orderStatus}}</strong></p> 
+                          <p>Address: <strong>{{this.deliveryAddress}}</strong></p>
+                      </td>
+                      <td>
+                          ${{this.price}} 
+                      </td>
+                      <td width="65">
+                          <input type="text" class="form-control" placeholder="{{this.quantityToBuy}}" readonly>
+                      </td>
+                      <td>
+                          <h4>
+                              ${{total this.price this.quantityToBuy}}
+                          </h4>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          {{/each}}
+          <div class="ibox-content">
+            <button class="btn btn-white"><i class="fa fa-arrow-left"></i> Continue shopping</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+{{!-- Modal --}}
+<div class="modal fade" id="delete-product-modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Delete product</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"
+        ></button>
+      </div>
+      <div class="modal-body">
+        Are you sure you want to delete this product?
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        <button id="deleteProduct" type="button" class="btn btn-danger">Delete</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<form name="Delete-Hidden-Product" method="POST"></form>
+
+<script>
+
+</script>

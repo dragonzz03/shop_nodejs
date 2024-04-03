@@ -166,21 +166,24 @@ class ProductController {
         productInfo.idProduct = req.params.idProduct
         productInfo.quantityToBuy = req.params.quantityToBuy
         product = [productInfo]
+        let forCal = {
+          price: [productInfo.price],
+          quantityToBuy: [req.params.quantityToBuy]
+        }; 
         res.render('product/checkOut', {
           User: MongooseToObject(user),
           product,
           transporter: mutipleMongooseToObject(transporter),
+          forCal
         })  
     })
     .catch(next)
-   }
-   
+   } 
   }
   //[GET]product/cart/checkout/:cartIds/:quantity
   checkOutFromCart(req, res, next) {
    const idCarts = convert(req.params.cartIds)
    const quantity = convert(req.params.quantity)
-   
     Promise.all([Cart.find({_id: {$in: idCarts}}).lean(), User.findById(req.session.idUser), User.find({permission:'transporter'})])
     .then(([manyProductInfo, user, transporter]) =>{
       const product = manyProductInfo.map((cartItem, index) => {
@@ -205,6 +208,12 @@ class ProductController {
 //[POST] product/purchaseProcessing
   purchaseProcessing(req, res, next) {
     const object = req.body
+    const forServiceProvider = {
+      idCustomer: req.session.idUser,
+      orderStatus: 'Processing',
+      nameCustomer: req.body.nameCustomer,
+      imageCustomer: req.body.imageCustomer,
+    }
     const filteredData = Object.entries(object).filter(([key, value]) => !Array.isArray(value));
     const result = Object.fromEntries(filteredData);
     for (const key in result) {
@@ -223,13 +232,8 @@ class ProductController {
       }
       arrayResult.push(obj);
     });
-
     const newArray = arrayResult.map(obj => ({ ...obj, ...result }));
-        const idAuthors = req.body.idAuthor
-        const forServiceProvider = {
-          idCustomer: req.session.idUser,
-          orderStatus: 'Processing'
-        }
+       
         newArray.forEach(dataOrder =>{
         const orderManagements = new OrderManagement(dataOrder);
         console.log(dataOrder)
@@ -267,7 +271,6 @@ class ProductController {
           })
           .catch() 
   }
-
 // //[GET] product/orderManagement
   orderManagement(req, res, next) { 
     OrderManagement.find({ idCustomer: req.params.id})
@@ -281,7 +284,6 @@ class ProductController {
     })
     .catch(next);
   }
-
     //[DELETE] admin/:id/
     deleteCartProduct(req, res, next) {
       const stringIdCarts = req.params.idProduct

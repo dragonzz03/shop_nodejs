@@ -2,7 +2,6 @@ const Comment = require('../model/Comment');
 const Evaluate = require('../model/Evaluates');
 const Product = require('../model/Products');
 const { calculateAverageRating } = require('../../util/evaluate');
-
 class EvaluateControllers {
     addCommentProcess(req, res, next) {
         var infoComment = req.params
@@ -20,11 +19,9 @@ class EvaluateControllers {
         infoEvaluate.idUser = req.session.idUser
         infoEvaluate.nameUser = req.session.accountName
         infoEvaluate.imageUser = req.session.image
-
         var averageRatingInfo ={}
         averageRatingInfo.evaluate = parseInt(infoEvaluate.evaluate) 
         averageRatingInfo = [averageRatingInfo]
-
         const evaluate = new Evaluate(infoEvaluate);
         evaluate
           .save()
@@ -44,6 +41,5 @@ class EvaluateControllers {
           })
           .catch(next);
     }
-  
 }
 module.exports = new EvaluateControllers

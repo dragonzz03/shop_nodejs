@@ -140,27 +140,21 @@
   var modalIdProduct = exampleModal.querySelector('#idProduct')
   modalTitle.textContent = recipient
   modalIdProduct.value = idProduct
-  
 })
-
       function rateStar(starNumber) {
       // Reset all stars to white
       for (let i = 1; i <= 5; i++) {
         const star = document.querySelector(`.star:nth-child(${i})`);
         star.style.color = '#ddd';
       }
-
       // Set the clicked star and stars to its left to black
       for (let i = 1; i <= starNumber; i++) {
         const star = document.querySelector(`.star:nth-child(${i})`);
         star.style.color = 'black';
-
       }
       starNumberInput.value = starNumber
     }
-
-
-
+    
   deleteProductModal.addEventListener('show.bs.modal', function (event) {
     var button = event.relatedTarget; 
     productID = button.getAttribute('data-id-product-delete'); 
@@ -170,5 +164,4 @@
     deleteForm.action = '/product/orderManagement/deleteOrderedProducts/' +  productID + '/?_method=DELETE';
     deleteForm.submit();
   }
-
 </script>

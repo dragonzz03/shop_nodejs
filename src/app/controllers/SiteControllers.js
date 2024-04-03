@@ -4,6 +4,7 @@ const Product = require('../model/Products');
 const RecommendProductsProcess = require('../../util/recomment');
 const Evaluate = require('../model/Evaluates');
 const AccountDetail = require('../model/AccountDetails');
+const Advertisement = require('../model/Advertisement');
 
 class SiteController {
   index(req, res, next) {
@@ -29,11 +30,12 @@ class SiteController {
         return listIdRecommendedProducts = recommendedProducts.map(item => item._id);   
       })
       .then((idProduct)=>{
-        Promise.all([Categories.find({}), Product.find({ _id: { $in: idProduct } }).lean()])
-        .then(([category, recomment]) => {
+        Promise.all([Categories.find({}), Product.find({ _id: { $in: idProduct } }).lean(), Advertisement.find().lean()])
+        .then(([category, recomment, advertisements ]) => {
           res.render('home', {
             category: mutipleMongooseToObject(category),
-            recomment
+            recomment,
+            advertisements
           });
         })  
         .catch(next);
@@ -41,11 +43,12 @@ class SiteController {
       .catch(next)  
     }  
     else{
-      Promise.all([Categories.find({}), Product.find({}).sort({evaluate: -1}).limit(5).lean()])
-      .then(([category, recomment]) => {
+      Promise.all([Categories.find({}), Product.find({}).sort({evaluate: -1}).limit(5).lean(), Advertisement.find().lean()])
+      .then(([category, recomment, advertisements]) => {
         res.render('home', {
           category: mutipleMongooseToObject(category),
-          recomment
+          recomment,
+          advertisements
         });
       })  
       .catch(next);

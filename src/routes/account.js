@@ -23,7 +23,11 @@ router.get("/profile", AccountControllers.profile)
 //Log out router
 router.use("/logOut", AccountControllers.logout)
 
+//Decentralization router
 router.use("/decentralization", AccountControllers.decentralization)
 router.patch("/decentralizationProcess", AccountControllers.decentralizationProcess)
+
+router.use("/profile/personalService/unprocessedOrder/:idServiceProvider", AccountControllers.viewUnprocessedOrders)
+
 
 module.exports = router

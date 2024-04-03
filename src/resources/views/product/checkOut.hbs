@@ -1,39 +1,3 @@
-{{!-- <div class="row">
-  <div class="col-sm-6 col-lg-6 mt-4">
-        <div class="card">
-            <img src="{{product.image}}" class="card-img-top showProduct" alt="..." data-id="{{product.name}}"/>
-        </div>
-</div>
-  <div class="col-sm-6 col-lg-6 mt-4">
-    <div class="">
-      <form action="/product/purchaseProcessing" method="GET" class="row g-3 needs-validation" name="Cart-Form">
-        <h2 class="card-text">Check Out</h2>
-        <input name="idProduct" value="{{product.idProduct}}" style="display: none;">
-        -<input name="quantity" value="{{product.quantity}}" style="display: none;">
-        -<input name="quantityToBuy" value="{{product.quantityToBuy}}" style="display: none;">
-        -<input name="description" value="{{product.description}}" style="display: none;">
-        -<input name="name" value="{{product.name}}" style="display: none;">
-        -<input name="image" value="{{product.image}}" style="display: none;">
-        -<input name="idOwner" value="{{product.idOwner}}" style="display: none;">
-        -<input name="price" value="{{product.price}}" style="display: none;">
-        -<input name="idCustomer" value="{{User._id}}" style="display: none;">
-        -<input name="address" value="{{User.address}}" style="display: none;">
-        <h5 class="card-title">{{product.name}}</h5>
-        <p class="card-text" name="iduser" >Name: {{User.name}}</p>
-        <p class="card-text">Address: {{User.address}}</p>
-        <p class="card-text" name="description">Description: {{product.description}}</p>
-        <p class="card-text">Quantity to buy: {{product.quantityToBuy}}</p>
-        <p class="card-text">Price: {{product.price}} VND</p>
-        <button class="btn btn-primary" id="btnBuy" type="submit">Buy now</button>    
-      </form> 
-    </div>
-  </div>
-</div>  --}}
-
-
-
-
-
 <section class="h-100 gradient-custom mt-3">
   <form action="/product/purchaseProcessing" method="POST" name="Cart-Form">
     <div class="container py-5">
@@ -43,7 +7,6 @@
             <div class="card-header py-3">
               <h5 class="mb-0">Check out</h5>
             </div>
-
             {{#if User}}
             <div class="ms-4 mt-3">
               <i class="bi bi-houses-fill address"></i>
@@ -51,8 +14,8 @@
               <h5>
                 {{User.name}}
                 <input name="idCustomer" value="{{User._id}}" style="display: none;">
-                
-                
+                <input name="nameCustomer" value="{{User.name}}" style="display: none;">
+                <input name="imageCustomer" value="{{User.image}}" style="display: none;">
               </h5>
               <p>
                 {{User.address}}
@@ -60,9 +23,7 @@
               </p>
             </div>
             {{/if}}
-            
             <hr class="my-4" >
-
             <div class="card-body">
               <!-- Single item -->
               {{#each product}}
@@ -72,33 +33,28 @@
                   <div class="bg-image hover-overlay hover-zoom ripple rounded" data-mdb-ripple-color="light">
                     <img src="{{this.image}}"
                       class="w-100" alt="{{this.name}}" />
-                      <input name="image" value="{{this.image}}" style="display: none;">
+                      <input name="image[]" value="{{this.image}}" style="display: none;">
                     <a href="#!">
                       <div class="mask" style="background-color: rgba(251, 251, 251, 0.2)"></div>
                     </a>
                   </div>
                   <!-- Image -->
                 </div>
-
                 <div class="col-lg-5 col-md-6 mb-4 mb-lg-0">
                   <!-- Data -->
                   <p><strong>{{this.name}}</strong></p>
-                  <input name="idAuthor" value="{{this.idAuthor}}" style="display: none;">
-                  <input name="name" value="{{this.name}}" style="display: none;">
-                  <input name="idProduct" value="{{this.idProduct}}" style="display: none;">
-          
+                  <input name="idAuthor[]" value="{{this.idAuthor}}" style="display: none;">
+                  <input name="name[]" value="{{this.name}}" style="display: none;">
+                  <input name="idProduct[]" value="{{this.idProduct}}" style="display: none;">
                   <!-- Description -->
                   <p>{{this.description}}</p>
-                  <input name="description" value="{{this.description}}" style="display: none;">
-
+                  <input name="description[]" value="{{this.description}}" style="display: none;">
                   <!-- Quantity -->
                   <p>Quantity: {{this.quantityToBuy}}</p>
-
                   <!-- Price -->
                   <p class="text-start">
                     <strong>Unit price: {{this.price}} $</strong>
                   </p>
-              
                   <button type="button" class="btn btn-danger btn-sm mb-2 me-1" data-mdb-toggle="tooltip"
                   id="btnLike" data-id="{{this._id}}"
                     title="Move to the wish list">
@@ -106,16 +62,13 @@
                   </button>
                 </div>     
               </div>
-
               <hr class="my-4" >
-
               {{/each }}
             </div>
           </div>
           <div class="card mb-4">
             <div class="card-body">
               <p><strong>Shipping option</strong></p>
-              
               <a data-bs-toggle="modal" href="#exampleModal"><strong>CHANGE</strong></a>
               <div class="infoTrans mt-3">
                 <img src="" alt="" id="Image-Transporter" class="transporter-avt" hidden>
@@ -143,57 +96,56 @@
         <div class="col-md-4">
           <div class="card mb-4">
            {{#if product}}
-  <div class="card-header py-3">
-    <h5 class="mb-0">Summary</h5>
-  </div>
-  <div class="card-body">
-    <ul class="list-group list-group-flush">
-      {{#each product}}
-      <li class="list-group-item d-flex justify-content-between align-items-center border-0 px-0 pb-0">
-        Products
-        <strong>{{name}} </strong>
-      </li>
-      <li class="list-group-item d-flex justify-content-between align-items-center border-0 px-0 pb-0">
-        Unit Price
-        <span>{{price}} $</span>
-      </li>
-      <li class="list-group-item d-flex justify-content-between align-items-center border-0 px-0 pb-0">
-        Quantity
-        <span>{{quantityToBuy}}</span>
-        <input name="idCart" value="{{_id}}" style="display: none;">
-        <input name="quantityToBuy" value="{{quantityToBuy}}" style="display: none;">
-        <input name="price" value="{{price}}" style="display: none;">
-      </li>
-     
-      {{/each}}
-      <li class="list-group-item d-flex justify-content-between align-items-center px-0">
-        Shipping
-        <strong>Gratis</strong>
-      </li>
-      <li class="list-group-item d-flex justify-content-between align-items-center border-0 px-0 pb-0">
-        Transporter
-        <strong id="Name-Transporter-2">None</strong>
-      </li>
-       <li class="list-group-item d-flex justify-content-between align-items-center border-0 px-0 mb-3">
-        <div>
-          <strong>Total amount</strong>
-          {{#if forCal}}
-          
-          <strong>
-            <p class="mb-0">(including VAT)</p>
-          </strong>
-        </div>
-        <span><strong>{{totalPrice forCal}} $</strong></span>
-        {{/if}}
-        
-      </li>
-    </ul>
+              <div class="card-header py-3">
+                <h5 class="mb-0">Summary</h5>
+              </div>
+              <div class="card-body">
+                <ul class="list-group list-group-flush">
+                  {{#each product}}
+                  <li class="list-group-item d-flex justify-content-between align-items-center border-0 px-0 pb-0">
+                    Products
+                    <strong>{{name}} </strong>
+                  </li>
+                  <li class="list-group-item d-flex justify-content-between align-items-center border-0 px-0 pb-0">
+                    Unit Price
+                    <span>{{price}} $</span>
+                  </li>
+                  <li class="list-group-item d-flex justify-content-between align-items-center border-0 px-0 pb-0">
+                    Quantity
+                    <span>{{quantityToBuy}}</span>
+                    <input name="idCart[]" value="{{_id}}" style="display: none;">
+                    <input name="quantityToBuy[]" value="{{quantityToBuy}}" style="display: none;">
+                    <input name="price[]" value="{{price}}" style="display: none;">
+                  </li>
+                
+                  {{/each}}
+                  <li class="list-group-item d-flex justify-content-between align-items-center px-0">
+                    Shipping
+                    <strong>Gratis</strong>
+                  </li>
+                  <li class="list-group-item d-flex justify-content-between align-items-center border-0 px-0 pb-0">
+                    Transporter
+                    <strong id="Name-Transporter-2">None</strong>
+                  </li>
+                  <li class="list-group-item d-flex justify-content-between align-items-center border-0 px-0 mb-3">
+                    <div>
+                      <strong>Total amount</strong>
+                      {{#if forCal}}
+                      <strong>
+                        <p class="mb-0">(including VAT)</p>
+                      </strong>
+                    </div>
+                    <span><strong>{{totalPrice forCal}} $</strong></span>
+                    {{/if}}
+                    
+                  </li>
+                </ul>
 
-    <button id="buyBtn" type="submit" class="btn btn-primary btn-lg btn-block">
-      Buy now
-    </button>
-  </div>
-{{/if}}
+                <button id="buyBtn" type="submit" class="btn btn-primary btn-lg btn-block">
+                  Buy now
+                </button>
+              </div>
+            {{/if}}
           </div>
         </div>
       </div>
@@ -224,17 +176,10 @@
     </div>
   </div>
 </div>
-
-
-
-
 <script>
-  
   var buyBtn = document.getElementById('buyBtn')
   var imageTransporter = document.getElementById('Image-Transporter')
-  
-  buyBtn.addEventListener('click', function(e){
-    
+  buyBtn.addEventListener('click', function(e){ 
     var idtras = document.getElementById('Id-Transporter')
     var valueID = idtras.value
     if(valueID == ''){

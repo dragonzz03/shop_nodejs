@@ -1,6 +1,4 @@
-
 <section class="h-100 gradient-custom">
-  
     <div class="container py-5">
       <div class="row d-flex justify-content-center my-4">
         <div class="col-md-8">
@@ -25,9 +23,7 @@
                 <i class="bi bi-bag-fill"></i>
               </button>
             </div>
-
             <hr class="my-4" >
-
             <div class="card-body">
               <!-- Single item -->
               {{#each cart}}
@@ -44,16 +40,15 @@
                   </div>
                   <!-- Image -->
                 </div>
-
                 <div class="col-lg-5 col-md-6 mb-4 mb-lg-0">
                   <!-- Data -->
                   <p data-id="{{this.id}}"><strong>{{this.name}}</strong></p>
                   <p>Color: blue</p>
                   <p>Size: M</p>
-                  <button type="button"  class="btn btn-primary btn-sm me-1 mb-2 btnDelete" data-mdb-toggle="tooltip"
+                  <button type="button"  class="btn btn-primary btn-sm me-1 mb-2 btnInteractionCart" data-mdb-toggle="tooltip"
                   data-id="{{this._id}}"
-                  data-bs-toggle="modal" data-bs-target="#delete-product-modal" 
-                    title="Remove item" value="{{this._id}}">
+                  data-bs-toggle="modal" data-bs-target="#delete-single-modal" 
+                    title="Remove item" value="delete">
                     <i class="bi bi-trash3"></i>
                   </button>
                   <button type="button" class="btn btn-danger btn-sm mb-2 me-1 btnInteractionCart" data-mdb-toggle="tooltip"
@@ -68,7 +63,6 @@
                   </button>
                   <!-- Data -->
                 </div>
-
                 <div class="col-lg-4 col-md-6 mb-4 mb-lg-0">
                   <!-- Quantity -->
                   <div class="d-flex mb-4" style="max-width: 300px">
@@ -76,7 +70,6 @@
                       onclick="this.parentNode.querySelector('input[type=number]').stepDown()">
                       <i class="bi bi-dash-circle-fill"></i>
                     </button>
-
                     <!-- Quantity -->
                     <div class="form-outline">
                       <input min="0" name="quantity" value="{{this.quantityToBuy}}" 
@@ -84,25 +77,20 @@
                       class="form-control quantityToBuy" for="{{this._id}}" />
                       <label class="form-label" for="form1">Quantity</label>
                     </div>
-
                     <button class="btn btn-primary px-3 ms-2 btn-cart"
                       onclick="this.parentNode.querySelector('input[type=number]').stepUp()">
                       <i class="bi bi-plus-circle-fill"></i>
                     </button>
                   </div>
                   
-
                   <!-- Price -->
                   <p class="text-start text-md-center">
                     <strong>${{this.price}}</strong>
-                  </p>
-              
+                  </p>             
                 </div>
-              </div>
-        
+              </div>      
               <hr class="my-4" >
               {{/each }}
-
               <!-- Payment methods -->
             </div>
           </div>
@@ -164,9 +152,7 @@
       </div>
     </div>
 </section>
-
 <form name="Cart-Form" method="POSt"></form>
-
 {{!-- Delete-Modal --}}
 <div class="modal fade" id="delete-product-modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog">
@@ -186,6 +172,25 @@
     </div>
   </div>
 </div>
+{{!-- Delete-Single-Item-Modal --}}
+<div class="modal fade" id="delete-single-modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Delete single product</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"
+        ></button>
+      </div>
+      <div class="modal-body">
+        Are you sure you want to delete this product?
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        <button id="deleteSingleProductBtn" type="button" class="btn btn-danger">Delete</button>
+      </div>
+    </div>
+  </div>
+</div>
 <script>
   document.addEventListener('DOMContentLoaded', function(){
   var CartForm = document.forms['Cart-Form'];
@@ -195,13 +200,13 @@
   var checkboxAll = $('#checkbox-all')
   var allQuantityVal = $('input[name="quantity"]')
   var deleteModalBtn = $('#deleteProductBtn')
-  var deleteBtn = $('.btnDelete')
+  var deleteSingleModalBtn = $('#deleteSingleProductBtn')
+  var idSingleItem =''
   var deleteItemChecked = $('#deleteItemChecked')
   var buyItemChecked = $('#buyItemChecked')
   var checkoutFromCart = $('#checkoutSubmitBtn')
   var cartItemCheckbox = $('input[name="cartIds"]')
   var buttons = document.querySelectorAll('.btnInteractionCart');
-
     // Click event handler function
     function handleClick(event) {
         // Go up to the parent level to find the element <button>
@@ -213,28 +218,30 @@
             // Get the value of the value attribute from the element <button>
             type = button.value;
             CartIds = button.getAttribute('data-id')
-            CartForm.method ='POST'
-            CartForm.action = '/product/cart/' + type + '/' + CartIds;
-            CartForm.submit();
+            switch(type){
+              case 'delete':
+                console.log(CartIds)
+                break;
+              case 'like':
+                CartForm.method ='POST'
+                CartForm.action = '/product/cart/' + type + '/' + CartIds;
+                CartForm.submit();
+                break;
+            }
         }  
     }
     // Add click event for each button
     buttons.forEach(function(button) {
         button.addEventListener('click', handleClick);
     });
-    // Processed when pressing the delete button
-    deleteBtn.click(function(event){
-     var button = event.target;
-         while (button && button.tagName !== 'BUTTON') {
-            button = button.parentNode;
-        }
-        if (button) {
-          CartIds = button.value
-        }
-    })
-    //Processed when confirming deletion
+    //Handle when confirming deletion of selected item
     deleteModalBtn.click(function(event){
       getIdCarts()
+      CartForm.action = '/product/cart/' + CartIds + '/?_method=DELETE';
+      CartForm.submit();
+    })
+    //Handle when confirming deletion of a product
+    deleteSingleModalBtn.click(function(event){
       CartForm.action = '/product/cart/' + CartIds + '/?_method=DELETE';
       CartForm.submit();
     })
@@ -250,7 +257,6 @@
       //var isChecked = cartItemCheckbox.length === $('input[name="cartIds"]:checked').length
       checkboxAll.prop('checked', isChecked)
       renderCheckAllSubmit()
- 
     })
     // Render delete and buy checked button 
     function renderCheckAllSubmit (){
@@ -280,12 +286,10 @@
           //var quantityValue = $('input.quantityToBuy[for="' + cartItemCheckbox.attr('id') + '"]').val();
           }
       })
-
       CartForm.method = 'GET'
       CartForm.action = '/product/cart/checkout/' + CartIds + '/' + quantityValue;
       CartForm.submit();
     })
   }
   )
-  
 </script>

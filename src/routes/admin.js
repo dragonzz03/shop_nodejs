@@ -20,6 +20,9 @@ router.get('/advertisementManagement', AdminControllers.advertisement);
 
 //Trash router
 router.get('/trash', AdminControllers.trash);
+//addAdvertisement router
+router.get('/addAdvertisement', AdminControllers.addAdvertisement);
+router.post('/addAdvertisementProcess', AdminControllers.addAdvertisementProcess);
 
 //Trash router
 router.get('/commentManagement', AdminControllers.commentManagement);

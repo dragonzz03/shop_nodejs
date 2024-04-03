@@ -3,6 +3,8 @@ const Schema = mongoose.Schema;
 
 const SalesOrderManagement = new Schema({
   idCustomer: { type: String },
+  nameCustomer: { type: String },
+  imageCustomer: { type: String },
   idServiceProvider: { type: String },
   idOrder: { type: String },
   orderStatus: { type: String, default: 'Processing'},

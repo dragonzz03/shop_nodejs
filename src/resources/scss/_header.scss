@@ -9,16 +9,12 @@ h1 {
   strong.brand{
     color: white;
   }
-  .search-product{
-    width: 300px;
-    color: white;
-  }
+
   .cart-icon{
     color: white;
+    margin-bottom: 8px;
   }
-  .name{
-    color: white;
-  }
+  
   .logo-shop{
     font-size: 2rem;
     color: white;
@@ -37,3 +33,128 @@ h1 {
     height: 10%;
   }
   
+
+  /* Phần danh sách */
+.navbar-nav {
+  display: flex;
+  align-items: center;
+}
+
+/* Phần tìm kiếm */
+.search {
+  display: flex;
+  align-items: center;
+  margin-right: 20px;
+}
+
+.form-control {
+  border-radius: 20px;
+}
+
+/* Phần danh sách */
+.navbar-nav {
+  display: flex;
+  align-items: center;
+}
+
+/* Phần tìm kiếm */
+.search {
+  display: flex;
+  align-items: center;
+  margin-right: 20px;
+}
+
+.form-control {
+  border-radius: 20px;
+}
+
+.search-product::placeholder {
+  color: #6c757d; /* Màu chữ mờ */
+}
+
+.btn-light {
+  background-color: #f8f9fa; /* Màu nền button */
+  color: #333; /* Màu chữ button */
+  border: 1px solid #ccc; /* Viền button */
+  transition: background-color 0.3s ease, color 0.3s ease, transform 0.3s ease;
+}
+
+.btn-light:hover {
+  background-color: #e9ecef; /* Màu nền button khi di chuột qua */
+  color: #555; /* Màu chữ button khi di chuột qua */
+  transform: translateY(-3px); /* Di chuyển một chút khi di chuột qua */
+}
+
+/* Phần biểu tượng giỏ hàng */
+.cart-icon {
+  margin-left: 20px;
+}
+
+/* Phần tên người dùng */
+.name {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+}
+
+.user-avt {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  margin-right: 5px;
+}
+
+/* Phần dropdown menu */
+.dropdown-menu {
+  border-radius: 10px;
+  padding: 10px 0;
+  background-color: #fff; /* Màu nền dropdown */
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Hiệu ứng bóng đổ */
+}
+
+.dropdown-item {
+  color: #333; /* Màu chữ dropdown */
+  transition: background-color 0.3s ease, color 0.3s ease, transform 0.3s ease;
+}
+
+.dropdown-item:hover {
+  background-color: #f8f9fa; /* Màu nền dropdown khi di chuột qua */
+  color: #555; /* Màu chữ dropdown khi di chuột qua */
+  transform: translateY(-3px); /* Di chuyển một chút khi di chuột qua */
+}
+
+.dropdown-divider {
+  margin: 5px 0;
+  border-color: #ddd; /* Màu viền giữa các mục dropdown */
+}
+
+@media (max-width: 991.98px) {
+  .search {
+    max-width: 500px; /* Đặt chiều rộng tối đa cho phần tìm kiếm */
+  }
+  
+  .navbar-brand {
+    margin-right: auto; /* Đẩy logo về bên trái */
+  }
+
+  .navbar-nav {
+    display: flex;
+    align-items: center;
+  }
+
+  .user-avt {
+    width: 25px; /* Thu nhỏ kích thước của biểu tượng người dùng */
+    height: 25px;
+  }
+
+  .cart-icon {
+    margin-left: 10px; /* Tạo khoảng cách giữa biểu tượng người dùng và giỏ hàng */
+  }
+
+  .name {
+    margin-right: 10px; /* Tạo khoảng cách giữa tên người dùng và biểu tượng giỏ hàng */
+  }
+  .navbar{
+    height: 200px;
+  }
+}
