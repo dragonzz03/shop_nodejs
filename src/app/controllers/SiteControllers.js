@@ -12,7 +12,6 @@ class SiteController {
     const numberOfRecommendations = 5;
     var recommendedProducts;
     var listIdRecommendedProducts;
-
     if (req.session.idUser) {
       userId = req.session.idUser;
       Promise.all([AccountDetail.find({}, '_id age gender').lean(),
@@ -30,7 +29,7 @@ class SiteController {
         return listIdRecommendedProducts = recommendedProducts.map(item => item._id);   
       })
       .then((idProduct)=>{
-        Promise.all([Categories.find({}), Product.find({ _id: { $in: idProduct } }).lean(), Advertisement.find().lean()])
+        Promise.all([Categories.find({}), Product.find({ _id: { $in: idProduct } }).lean(), Advertisement.find({}).lean()])
         .then(([category, recomment, advertisements ]) => {
           res.render('home', {
             category: mutipleMongooseToObject(category),
@@ -43,7 +42,7 @@ class SiteController {
       .catch(next)  
     }  
     else{
-      Promise.all([Categories.find({}), Product.find({}).sort({evaluate: -1}).limit(5).lean(), Advertisement.find().lean()])
+      Promise.all([Categories.find({}), Product.find({}).sort({evaluate: -1}).limit(5).lean(), Advertisement.find({}).lean()])
       .then(([category, recomment, advertisements]) => {
         res.render('home', {
           category: mutipleMongooseToObject(category),
@@ -53,8 +52,7 @@ class SiteController {
       })  
       .catch(next);
     }
-  }
-  
+  } 
 }
 
 module.exports = new SiteController();

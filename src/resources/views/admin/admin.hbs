@@ -1,7 +1,7 @@
 <div class="container">
   <div class="row">
     {{> adminListItem}}
-    <div class="col-lg-9">
+    <div class="col-lg-9 admin-table">
       <table class="table">
         <thead>
           <tr>
@@ -102,12 +102,12 @@
   })
   
   banAccount.onclick = function(e){
-    banForm.action = '/admin/banAccount/' +  idAccount + '/?_type=banAccount&&_method=PUT';
+    banForm.action = '/admin/banAccount/' +  idAccount + '/?_type=banAccount&&_method=PATCH';
     banForm.submit();
   }
 
   removeBanAccount.onclick = function(e){
-    banForm.action = '/admin/banAccount/' +  idAccount + '/?_type=removeBanAccount&&_method=PUT';
+    banForm.action = '/admin/banAccount/' +  idAccount + '/?_type=removeBanAccount&&_method=PATCH';
     banForm.submit();
   }
 

@@ -27,6 +27,7 @@ router.use("/logOut", AccountControllers.logout)
 router.use("/decentralization", AccountControllers.decentralization)
 router.patch("/decentralizationProcess", AccountControllers.decentralizationProcess)
 
+router.patch("/profile/personalService/interactOrder", AccountControllers.interactOrderProcess)
 router.use("/profile/personalService/unprocessedOrder/:idServiceProvider", AccountControllers.viewUnprocessedOrders)
 
 

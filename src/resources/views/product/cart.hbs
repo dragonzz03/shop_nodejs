@@ -1,5 +1,5 @@
 <section class="h-100 gradient-custom">
-    <div class="container py-5">
+    <div class="container py-5 mt-3">
       <div class="row d-flex justify-content-center my-4">
         <div class="col-md-8">
           <div class="card mb-4">
@@ -27,7 +27,7 @@
             <div class="card-body">
               <!-- Single item -->
               {{#each cart}}
-              <div class="row mx-2">
+              <div class="row mx-2 cart-item" data-can-buy="{{this.enable}}">
                 <div class="col-lg-3 col-md-12 mb-4 mb-lg-0 ">
                   <input class="form-check-input " id="{{this._id}}" name="cartIds" type="checkbox" value="{{this._id}}" >
                   <!-- Image -->
@@ -42,9 +42,9 @@
                 </div>
                 <div class="col-lg-5 col-md-6 mb-4 mb-lg-0">
                   <!-- Data -->
-                  <p data-id="{{this.id}}"><strong>{{this.name}}</strong></p>
-                  <p>Color: blue</p>
-                  <p>Size: M</p>
+                  <strong for="{{this._id}}">{{this.name}}</strong>
+                  <p>{{this.description}}</p>
+                  <p>Unit price: ${{this.price}}</p>
                   <button type="button"  class="btn btn-primary btn-sm me-1 mb-2 btnInteractionCart" data-mdb-toggle="tooltip"
                   data-id="{{this._id}}"
                   data-bs-toggle="modal" data-bs-target="#delete-single-modal" 
@@ -55,11 +55,6 @@
                   data-id="{{this._id}}" value="like"
                     title="Move to the wish list">
                     <i class="bi bi-suit-heart"></i>
-                  </button>
-                  <button type="button" class="btn btn-danger btn-sm mb-2 btnInteractionCart" data-mdb-toggle="tooltip"
-                  data-id="{{this._id}}" data-newQuantity="{{this.quantityToBuy}}" value="buy"
-                    title="Move to the wish list">
-                    <i class="bi bi-bag-fill"></i>
                   </button>
                   <!-- Data -->
                 </div>
@@ -81,12 +76,7 @@
                       onclick="this.parentNode.querySelector('input[type=number]').stepUp()">
                       <i class="bi bi-plus-circle-fill"></i>
                     </button>
-                  </div>
-                  
-                  <!-- Price -->
-                  <p class="text-start text-md-center">
-                    <strong>${{this.price}}</strong>
-                  </p>             
+                  </div>                        
                 </div>
               </div>      
               <hr class="my-4" >
@@ -123,25 +113,7 @@
             </div>
             <div class="card-body">
               <ul class="list-group list-group-flush">
-                <li
-                  class="list-group-item d-flex justify-content-between align-items-center border-0 px-0 pb-0">
-                  Products
-                  <span>$ 0</span>
-                </li>
-                <li class="list-group-item d-flex justify-content-between align-items-center px-0">
-                  Shipping
-                  <span>0</span>
-                </li>
-                <li
-                  class="list-group-item d-flex justify-content-between align-items-center border-0 px-0 mb-3">
-                  <div>
-                    <strong>Total amount</strong>
-                    <strong>
-                      <p class="mb-0">(including VAT)</p>
-                    </strong>
-                  </div>
-                  <span><strong>$ 0</strong></span>
-                </li>
+                <div id ="listNameProduct" class="my-3"></div>
               </ul>
               <button type="submit" id="checkoutSubmitBtn" class="btn btn-primary btn-lg btn-block" disabled>
                 Go to checkout
@@ -193,103 +165,150 @@
 </div>
 <script>
   document.addEventListener('DOMContentLoaded', function(){
-  var CartForm = document.forms['Cart-Form'];
-  var CartIds
-  var type
-  var quantityValue =[]
-  var checkboxAll = $('#checkbox-all')
-  var allQuantityVal = $('input[name="quantity"]')
-  var deleteModalBtn = $('#deleteProductBtn')
-  var deleteSingleModalBtn = $('#deleteSingleProductBtn')
-  var idSingleItem =''
-  var deleteItemChecked = $('#deleteItemChecked')
-  var buyItemChecked = $('#buyItemChecked')
-  var checkoutFromCart = $('#checkoutSubmitBtn')
-  var cartItemCheckbox = $('input[name="cartIds"]')
-  var buttons = document.querySelectorAll('.btnInteractionCart');
-    // Click event handler function
-    function handleClick(event) {
-        // Go up to the parent level to find the element <button>
+    const CartForm = document.forms['Cart-Form'];
+    let CartIds
+    let type
+    let quantityValue =[]
+    let listNameProduct = $('#listNameProduct')
+    let checkboxAll = $('#checkbox-all')
+    let allQuantityVal = $('input[name="quantity"]')
+    let deleteModalBtn = $('#deleteProductBtn')
+    let deleteSingleModalBtn = $('#deleteSingleProductBtn')
+    let deleteItemChecked = $('#deleteItemChecked')
+    let buyItemChecked = $('#buyItemChecked')
+    let checkoutFromCart = $('#checkoutSubmitBtn')
+    let cartItemCheckbox = $('input[name="cartIds"]')
+    let buttons = document.querySelectorAll('.btnInteractionCart');
+    document.querySelectorAll('.cart-item').forEach(function(item) {
+      // Get the value of the attribute 'data-can-buy'
+      let canBuy = item.getAttribute('data-can-buy');
+      //If 'data-can-buy' value is 'false', disable the element
+      if (canBuy === 'false') {
+          item.querySelectorAll('input, button').forEach(function(element) {
+              element.disabled = true; // Disable input and button elements
+          });
+        }
+      });
+      // Click event handler function
+      function handleClick(event) {
+          // Go up to the parent level to find the element <button>
         var button = event.target;
-         while (button && button.tagName !== 'BUTTON') {
+        while (button && button.tagName !== 'BUTTON') {
             button = button.parentNode;
         }
         if (button) {
-            // Get the value of the value attribute from the element <button>
-            type = button.value;
-            CartIds = button.getAttribute('data-id')
-            switch(type){
-              case 'delete':
-                console.log(CartIds)
-                break;
-              case 'like':
-                CartForm.method ='POST'
-                CartForm.action = '/product/cart/' + type + '/' + CartIds;
-                CartForm.submit();
-                break;
-            }
-        }  
-    }
-    // Add click event for each button
-    buttons.forEach(function(button) {
-        button.addEventListener('click', handleClick);
-    });
-    //Handle when confirming deletion of selected item
-    deleteModalBtn.click(function(event){
-      getIdCarts()
-      CartForm.action = '/product/cart/' + CartIds + '/?_method=DELETE';
-      CartForm.submit();
-    })
-    //Handle when confirming deletion of a product
-    deleteSingleModalBtn.click(function(event){
-      CartForm.action = '/product/cart/' + CartIds + '/?_method=DELETE';
-      CartForm.submit();
-    })
-    //Handled when the checkboxAll button is pressed
-    checkboxAll.change(function(){
-      var isChecked = $(this).prop('checked')
-      cartItemCheckbox.prop('checked', isChecked)     
-      renderCheckAllSubmit()
-    })
-    //Handled when cartItemCheckbox are clicked
-    cartItemCheckbox.change(function(){
-      var isChecked = cartItemCheckbox.length === cartItemCheckbox.filter(':checked').length
-      //var isChecked = cartItemCheckbox.length === $('input[name="cartIds"]:checked').length
-      checkboxAll.prop('checked', isChecked)
-      renderCheckAllSubmit()
-    })
-    // Render delete and buy checked button 
-    function renderCheckAllSubmit (){
-      var isChecked = $('input[name="cartIds"]:checked').length
-      if(isChecked ){
-        deleteItemChecked.attr('disabled', false)
-        buyItemChecked.attr('disabled', false)
-        checkoutFromCart.attr('disabled', false)
-      } else {
-        deleteItemChecked.attr('disabled', true)
-        buyItemChecked.attr('disabled', true)
-        checkoutFromCart.attr('disabled', true)
-      }
-    };
-    function getIdCarts(){
-      CartIds = cartItemCheckbox.filter(':checked').map(function() {
-          return $(this).val();
-      }).get();
-    }
-    checkoutFromCart.click(function(e){
-      getIdCarts()
-      cartItemCheckbox.each(function(){
-        if ($(this).is(':checked')) {
-          // Get the value of the corresponding quantity field
-          let value = $('input.quantityToBuy[for="' + $(this).attr('id') + '"]').val()
-          quantityValue.push(value)
-          //var quantityValue = $('input.quantityToBuy[for="' + cartItemCheckbox.attr('id') + '"]').val();
+          // Get the value of the value attribute from the element <button>
+          type = button.value;
+          CartIds = button.getAttribute('data-id')
+          switch(type){
+            case 'delete':
+              break;
+            case 'like':
+              CartForm.method ='POST'
+              CartForm.action = '/product/cart/' + type + '/' + CartIds;
+              CartForm.submit();
+              break;
           }
+        }  
+      }
+      // Add click event for each button
+      buttons.forEach(function(button) {
+          button.addEventListener('click', handleClick);
+      });
+      //Handle when confirming deletion of selected item
+      deleteModalBtn.click(function(event){
+        getIdCarts()
+        CartForm.action = '/product/cart/' + CartIds + '/?_method=DELETE';
+        CartForm.submit();
       })
-      CartForm.method = 'GET'
-      CartForm.action = '/product/cart/checkout/' + CartIds + '/' + quantityValue;
-      CartForm.submit();
-    })
+      //Handle when confirming deletion of a product
+      deleteSingleModalBtn.click(function(event){
+        CartForm.action = '/product/cart/' + CartIds + '/?_method=DELETE';
+        CartForm.submit();
+      })
+      //Handled when the checkboxAll button is pressed
+      checkboxAll.change(function(){
+        var isChecked = $(this).prop('checked')
+        cartItemCheckbox.prop('checked', isChecked).trigger('change')    
+        renderCheckAllSubmit()
+      })
+      //Handled when cartItemCheckbox are clicked
+      cartItemCheckbox.change(function(){
+        var isChecked = cartItemCheckbox.length === cartItemCheckbox.filter(':checked').length
+        checkboxAll.prop('checked', isChecked)
+        renderCheckAllSubmit()
+        getNameProduct()
+          .then(nameProducts => {
+            renderProductSelected(nameProducts)
+          })
+          .catch(error => {
+            console.error('Error:', error);
+          });
+      })
+        checkoutFromCart.click(function(e){
+        getIdCarts()
+        cartItemCheckbox.each(function(){
+          if ($(this).is(':checked')) {
+            // Get the value of the corresponding quantity field
+            let value = $('input.quantityToBuy[for="' + $(this).attr('id') + '"]').val()
+            quantityValue.push(value)
+            }
+        })
+        CartForm.method = 'GET'
+        CartForm.action = '/product/cart/checkout/' + CartIds + '/' + quantityValue;
+        CartForm.submit();
+      })
+    //Get the checked product name
+    function getNameProduct() {
+        return new Promise((resolve, reject) => {
+            let nameProducts = [];
+            cartItemCheckbox.each(function() {
+                if ($(this).is(':checked')) {
+                    // Get the value of the corresponding quantity field
+                    let productName = $('strong[for="' + $(this).attr('id') + '"]').text();
+                    nameProducts.push(productName);
+                }
+            });
+            if (nameProducts) {
+                resolve(nameProducts); // Return name product
+            } else {
+                reject('Error'); // Returns an error if no products are selected
+            }
+        });
+    }
+    function renderProductSelected(nameProducts){
+      console.log(nameProducts)
+      let renderNameProduct = nameProducts.map(function(nameProduct){
+        return `
+          <li
+            class="list-group-item d-flex justify-content-between align-items-center border-0 px-0 pb-0">
+            Products
+            <span>${nameProduct}</span>
+          </li>
+        `
+      })
+      listNameProduct.html(renderNameProduct.join(''));
+    }
+      // Render delete and buy checked button 
+      function renderCheckAllSubmit (){
+        var isChecked = $('input[name="cartIds"]:checked').length
+        if(isChecked ){
+          deleteItemChecked.attr('disabled', false)
+          buyItemChecked.attr('disabled', false)
+          checkoutFromCart.attr('disabled', false)
+        } else {
+          deleteItemChecked.attr('disabled', true)
+          buyItemChecked.attr('disabled', true)
+          checkoutFromCart.attr('disabled', true)
+        }
+      };
+      //Get the checked product id
+      function getIdCarts(){
+        CartIds = cartItemCheckbox.filter(':checked').map(function() {
+            return $(this).val();
+        }).get();
+      }
+
   }
   )
 </script>

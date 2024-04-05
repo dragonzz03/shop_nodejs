@@ -1,0 +1,75 @@
+@charset "UTF-8";
+.account-management {
+  background-color: #f9f9f9;
+  /* Màu nền */
+  border-radius: 10px;
+  /* Bo tròn góc */
+  padding: 20px;
+  /* Khoảng cách lề nội dung */
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+  /* Đổ bóng */ }
+
+.account-management .table {
+  background-color: #ffffff;
+  /* Màu nền bảng */
+  border-radius: 8px;
+  /* Bo tròn góc bảng */
+  overflow: hidden;
+  /* Ẩn phần nội dung tràn ra ngoài */
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  /* Đổ bóng */ }
+
+.account-management .table th,
+.account-management .table td {
+  border: none;
+  /* Loại bỏ viền của các ô */
+  padding: 15px;
+  /* Khoảng cách lề nội dung trong các ô */
+  text-align: center;
+  /* Căn giữa nội dung */
+  transition: background-color 0.3s ease;
+  /* Hiệu ứng chuyển đổi màu nền mượt mà */ }
+
+.account-management .table th {
+  background-color: #007bff;
+  /* Màu nền đầu bảng */
+  color: #ffffff;
+  /* Màu chữ */ }
+
+.account-management .table th:first-child,
+.account-management .table td:first-child {
+  padding-left: 20px;
+  /* Khoảng cách lề trái của cột đầu tiên */ }
+
+.account-management .table th:last-child,
+.account-management .table td:last-child {
+  padding-right: 20px;
+  /* Khoảng cách lề phải của cột cuối cùng */ }
+
+.account-management .table tbody tr:nth-child(odd) {
+  background-color: #f2f2f2;
+  /* Màu nền các hàng lẻ */ }
+
+.account-management .table tbody tr:hover {
+  background-color: #e6e6e6;
+  /* Màu nền khi di chuột qua hàng */ }
+
+.account-management .btn {
+  text-decoration: none;
+  /* Loại bỏ gạch chân */
+  color: #ffffff;
+  /* Màu chữ */
+  background-color: #007bff;
+  /* Màu nền */
+  border: 1px solid #007bff;
+  /* Viền */
+  border-radius: 5px;
+  /* Bo tròn góc */
+  padding: 8px 16px;
+  /* Khoảng cách lề nội dung */
+  transition: background-color 0.3s ease, color 0.3s ease;
+  /* Hiệu ứng chuyển động mượt mà */ }
+
+.account-management .btn:hover {
+  background-color: #0056b3;
+  /* Màu nền khi di chuột qua */ }

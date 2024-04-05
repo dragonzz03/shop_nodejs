@@ -10,11 +10,8 @@ const convert = require('../../util/convertStringToArray')
 const { 
   mutipleMongooseToObject,
   MongooseToObject
-
 } = require('../../util/mongoose');
-//const { Promise } = require('mongoose');
 const { isArray } = require('mathjs');
-
 class ProductController {
   index(req, res, next) {
     Product.find({ type: req.params.type })
@@ -26,7 +23,6 @@ class ProductController {
       })
       .catch(next);
   }
-
 //[GET] /product/productDetails/:id
   productDetails(req, res, next) {
     Promise.all([Product.findOne({ _id: req.params.id }), 
@@ -53,7 +49,6 @@ class ProductController {
       })  
       .catch(next);
   }
-
 //[GET] product/searchResults?nameProduct
   searchResults(req, res, next){
     Product.find({ name: req.query.nameProduct})
@@ -65,7 +60,6 @@ class ProductController {
     })
     .catch(next);
   }
-
 //[GET] product/allProduct
   showAllProduct(req, res, next) {
     Product.find()
@@ -76,20 +70,18 @@ class ProductController {
       })
       .catch(next);
   }
-
 //[GET] product/addProduct
   addProduct(req, res, next) {
     //res.render('admin/addProduct');
     Categories.find({})
     .then((type) =>
-     res.render('admin/addProduct',{
-     type: mutipleMongooseToObject(type)
-      }
-     )       
+      res.render('admin/addProduct',{
+      type: mutipleMongooseToObject(type)
+        }
+      )       
     )
     .catch(next);
   }
-
 //[POST] product/addProductSuscess
   addProductSuscess(req, res, next) {
     var productInfo = req.body;
@@ -100,7 +92,6 @@ class ProductController {
       .then(() => res.redirect('/'))
       .catch(next);
   }
-
 //[POST] product/addToCart
   addToCart(req, res, next) {
     var cartInfo;
@@ -111,38 +102,56 @@ class ProductController {
       res.locals.message.warning = errorMessage;
       return res.redirect(previousUrl)
     }
-   else{
-    Product.findById(req.params.idProduct)
-    .then((product) =>{
-      cartInfo = req.params;
-      cartInfo.idUser = req.session.idUser;
-      cartInfo.name = product.name;
-      cartInfo.idAuthor = product.idAuthor;
-      cartInfo.image = product.image;
-      cartInfo.price = product.price;
-      cartInfo.description = product.description;
-      return cartInfo
-    })
-    .then((cartInfo) =>{
-      const addProductToCart = new Cart(cartInfo)
-      addProductToCart.save()
-        .then(() =>{
-          res.redirect('/product/cart')
-        })
-        .catch(next);
-    })
-    .catch(next);
-   }
+    else{
+      Product.findById(req.params.idProduct)
+      .then((product) =>{
+        cartInfo = req.params;
+        cartInfo.idUser = req.session.idUser;
+        cartInfo.name = product.name;
+        cartInfo.idAuthor = product.idAuthor;
+        cartInfo.image = product.image;
+        cartInfo.price = product.price;
+        cartInfo.description = product.description;
+        return cartInfo
+      })
+      .then((cartInfo) =>{
+        const addProductToCart = new Cart(cartInfo)
+        addProductToCart.save()
+          .then(() =>{
+            res.redirect('/product/cart')
+          })
+          .catch(next);
+      })
+      .catch(next);
+    }
   }
-
 //[GET] product/cart
   cart(req, res, next) {
-    Cart.find({idUser: req.session.idUser})
+    Cart.find({idUser: req.session.idUser}).lean()
       .then((cart) => {
-        res.render('product/cart', {
-          cart: mutipleMongooseToObject(cart),
+        let idProducts = cart.map((item) =>item.idProduct)
+        let isEnable
+        let products = idProducts.map(id => Product.find({_id:id}).lean())
+        Promise.all(products)
+        .then((product) =>{
+          const arrayProducts = [].concat(...product);
+          let quantityProduct = arrayProducts.map((product) =>product.quantity)
+          isEnable = cart.map(function(item, index){
+            return quantityProduct[index] > 0 ? true: false
+          })
+          return cart.map(function(item, index){
+            return {
+              ...item,
+              enable: isEnable[index]
+            }
+          })
         })
-
+        .then((cart) =>{
+          res.render('product/cart', {
+            cart,
+          })
+        })
+        .catch(next)
       })
       .catch(next)
   }
@@ -158,32 +167,32 @@ class ProductController {
       });
       return
     }
-   else{
-    Promise.all([Product.findById(req.params.idProduct), User.findById(req.session.idUser), User.find({permission:'transporter'})])
-    .then(([productInfo, user, transporter]) =>{
-        productInfo = MongooseToObject(productInfo)
-        productInfo.idUser = req.session.idUser
-        productInfo.idProduct = req.params.idProduct
-        productInfo.quantityToBuy = req.params.quantityToBuy
-        product = [productInfo]
-        let forCal = {
-          price: [productInfo.price],
-          quantityToBuy: [req.params.quantityToBuy]
-        }; 
-        res.render('product/checkOut', {
-          User: MongooseToObject(user),
-          product,
-          transporter: mutipleMongooseToObject(transporter),
-          forCal
-        })  
-    })
-    .catch(next)
-   } 
+    else{
+      Promise.all([Product.findById(req.params.idProduct), User.findById(req.session.idUser), User.find({permission:'transporter'})])
+      .then(([productInfo, user, transporter]) =>{
+          productInfo = MongooseToObject(productInfo)
+          productInfo.idUser = req.session.idUser
+          productInfo.idProduct = req.params.idProduct
+          productInfo.quantityToBuy = req.params.quantityToBuy
+          product = [productInfo]
+          let forCal = {
+            price: [productInfo.price],
+            quantityToBuy: [req.params.quantityToBuy]
+          }; 
+          res.render('product/checkOut', {
+            User: MongooseToObject(user),
+            product,
+            transporter: mutipleMongooseToObject(transporter),
+            forCal
+          })  
+      })
+      .catch(next)
+    } 
   }
   //[GET]product/cart/checkout/:cartIds/:quantity
   checkOutFromCart(req, res, next) {
-   const idCarts = convert(req.params.cartIds)
-   const quantity = convert(req.params.quantity)
+    const idCarts = convert(req.params.cartIds)
+    const quantity = convert(req.params.quantity)
     Promise.all([Cart.find({_id: {$in: idCarts}}).lean(), User.findById(req.session.idUser), User.find({permission:'transporter'})])
     .then(([manyProductInfo, user, transporter]) =>{
       const product = manyProductInfo.map((cartItem, index) => {
@@ -203,8 +212,6 @@ class ProductController {
     })
     .catch(next) 
   }
-  likeFromCart(req, res, next) {res.send('like')}
-
 //[POST] product/purchaseProcessing
   purchaseProcessing(req, res, next) {
     const object = req.body
@@ -222,7 +229,6 @@ class ProductController {
       }
     }
     const arrayResult = [];
-
     object.quantityToBuy.forEach((quantity, index) => {
       const obj = {};
       for (const key in object) {
@@ -232,50 +238,42 @@ class ProductController {
       }
       arrayResult.push(obj);
     });
-    const newArray = arrayResult.map(obj => ({ ...obj, ...result }));
-       
-        newArray.forEach(dataOrder =>{
-        const orderManagements = new OrderManagement(dataOrder);
-        console.log(dataOrder)
-          
-        orderManagements.save()
-          .then((orderManagements) =>{
-              const forSaler =  {
-                  ...forServiceProvider,
-                  idServiceProvider: dataOrder.idAuthor,
-                  idOrder: orderManagements._id.toString()
-                };
-                console.log(forSaler)
-              const forTransporter =  {
-                  ...forServiceProvider,
-                  idServiceProvider: dataOrder.idTransporter,
-                  idOrder: orderManagements._id.toString()
-                };
-                console.log(forTransporter)
-                // const saveForSaler = SalesOrderManagement(forSaler)
-                const saveForSaler = SalesOrderManagement(forSaler)
-                const saveForTransporter = SalesOrderManagement(forTransporter)
-                Promise.all([saveForSaler.save(), saveForTransporter.save()])
-                  .then(()=>{
-                    console.log('save successfull')
-                  })
-                  .catch(next)
-          })
-          .catch(next);
+    const newArray = arrayResult.map(obj => ({ ...obj, ...result }));  
+      newArray.forEach(dataOrder =>{
+      const orderManagements = new OrderManagement(dataOrder);    
+      orderManagements.save()
+        .then((orderManagements) =>{
+            const forSaler =  {
+                ...forServiceProvider,
+                idServiceProvider: dataOrder.idAuthor,
+                idOrder: orderManagements._id.toString()
+              };
+              console.log(forSaler)
+            const forTransporter =  {
+                ...forServiceProvider,
+                idServiceProvider: dataOrder.idTransporter,
+                idOrder: orderManagements._id.toString()
+              };
+              const saveForSaler = SalesOrderManagement(forSaler)
+              const saveForTransporter = SalesOrderManagement(forTransporter)
+              Promise.all([saveForSaler.save(), saveForTransporter.save()])
+                .then(()=>{
+                  console.log('Save successfull')
+                })
+                .catch(next)
         })
-        console.log()
-
-        Cart.deleteMany({_id: {$in: req.body.idCart}})
-          .then(()=>{
-            res.redirect('/product/orderManagement/'+ req.session.idUser)
-          })
-          .catch() 
+        .catch(next);
+      })
+      Cart.deleteMany({_id: {$in: req.body.idCart}})
+        .then(()=>{
+          res.redirect('/product/orderManagement/'+ req.session.idUser)
+        })
+        .catch() 
   }
-// //[GET] product/orderManagement
+   //[GET] product/orderManagement
   orderManagement(req, res, next) { 
     OrderManagement.find({ idCustomer: req.params.id})
     .then((orderManagement) => {
-      // res.json(orderManagement)
       const numberOfOrders = orderManagement.length;
       res.render('product/orderManagement',{
         orderManagement:  mutipleMongooseToObject(orderManagement),
@@ -284,28 +282,27 @@ class ProductController {
     })
     .catch(next);
   }
-    //[DELETE] admin/:id/
-    deleteCartProduct(req, res, next) {
-      const stringIdCarts = req.params.idProduct
-      const idCarts = convert(stringIdCarts)  
-      Cart.deleteMany({_id: {$in: idCarts }})
-      .then(() => res.redirect('back'))
-      .catch(next);
+  //[DELETE] admin/:id/
+  deleteCartProduct(req, res, next) {
+    const stringIdCarts = req.params.idProduct
+    const idCarts = convert(stringIdCarts)  
+    Cart.deleteMany({_id: {$in: idCarts }})
+    .then(() => res.redirect('back'))
+    .catch(next);
   }
-
-    //[DELETE] admin/:id/
-    deleteOrderedProducts(req, res, next) {
-      OrderManagement.findByIdAndDelete(req.params.idProductDelete)
-      .then(() => res.redirect('back'))
-      .catch(next);
-     
+  //[DELETE] admin/:id/
+  deleteOrderedProducts(req, res, next) {
+    OrderManagement.findByIdAndDelete(req.params.idProductDelete)
+    .then(() => res.redirect('back'))
+    .catch(next);
   }
-
   likeComment(req, res, next) {
     res.json('check')
-   
-}
-
+  }
+  //[GET]product/cart/like/:cartIds
+  likeFromCart(req, res, next) {
+    res.send('like')
+  }
 }
 
 module.exports = new ProductController();

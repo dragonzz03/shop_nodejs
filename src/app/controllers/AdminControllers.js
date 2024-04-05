@@ -96,7 +96,6 @@ class AdminControllers {
   advertisementProcessing(req, res, next) {
     res.render('advertisement/advertisement')
   }
-
   //[GET] admin/commentManagement
   commentManagement(req, res, next) {
     Comments.find()
@@ -107,16 +106,20 @@ class AdminControllers {
     })
   }
    //[GET] admin/addAdvertisement
-   addAdvertisement(req, res, next) {
-      res.render('admin/addAdvertisement')
-  }
-   //[GET] admin/addAdvertisementProcess
-   addAdvertisementProcess(req, res, next) {
+  addAdvertisement(req, res, next) {
+    res.render('admin/addAdvertisement')
+}
+  //[GET] admin/addAdvertisementProcess
+  addAdvertisementProcess(req, res, next) {
     const data = req.body
-    Advertisement.save(data)
+    const addAdvertisement = new Advertisement(data)
+    addAdvertisement.save()
+    .then(() =>{
       res.redirect('back')
+    })
+    .catch(next)
   }
-
+  //[PATCH] banAccount/:idAccount
   banAccountProcess(req, res, next) {
     switch (req.query._type) {
       case 'banAccount':

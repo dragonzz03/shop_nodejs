@@ -1,7 +1,7 @@
 <div class="container">
   <div class="row">
     {{> adminListItem}}
-    <div class="col-lg-9">  
+    <div class="col-lg-9 admin-table">  
       <div class="mt-4">
         <h3>Trash</h3>
         <a href="/admin/updateCategory">Back to category list</a>
@@ -14,6 +14,8 @@
             <th scope="col">Image</th>
             <th scope="col">CreatAt</th>
             <th scope="col">DeleteAt</th>
+            <th scope="col">Restore</th>
+            <th scope="col">Destroy</th>
           </tr>
         </thead>
         <tbody>
@@ -21,11 +23,11 @@
             <tr>
               <th scope="row">{{sum @index 1}}</th>
               <td>{{this.name}}</td>
-              <td>{{this.image}}</td>
+              <td><img src="{{this.image}}" alt="Image Category" style="max-width: 100%; max-height: 100%;"></td>
               <td>{{this.createdAt}}</td>
               <td>{{this.deletedAt}}</td>
-              <td><a href="" class="btn btn-link btn-restore" data-id="{{this._id}}">Restore</a></td>
-              <td><a href="updateCategory/{{this._id}}/deleteCategory" class="btn btn-link" data-bs-toggle="modal"
+              <td><a href="" class="btn btn-link restore-btn" data-id="{{this._id}}">Restore</a></td>
+              <td><a href="updateCategory/{{this._id}}/deleteCategory" class="btn btn-link destroy-btn" data-bs-toggle="modal"
                   data-bs-target="#delete-category-modal" data-id="{{this._id}}">Destroy</a></td>
             </tr>
             {{else}}
@@ -67,7 +69,7 @@
   var categoryId;
   var deleteForm = document.forms['Delete-Hidden-Category'];
   var restoreForm = document.forms['Restore-Hidden-Category'];
-  var restoreBtn = $('.btn-restore');
+  var restoreBtn = $('.restore-btn');
   var exampleModal = document.getElementById('delete-category-modal');
 
   exampleModal.addEventListener('show.bs.modal', function (event) {

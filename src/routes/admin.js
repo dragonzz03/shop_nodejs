@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 const AdminControllers = require('../app/controllers/AdminControllers');
 // Ban account router
-router.put('/banAccount/:idAccount', AdminControllers.banAccountProcess);
+router.patch('/banAccount/:idAccount', AdminControllers.banAccountProcess);
 
 //Edit Categoty router
 router.put('/:id/editCategoryProcess', AdminControllers.editCategoryProcessing);

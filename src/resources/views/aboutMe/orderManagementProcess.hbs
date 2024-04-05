@@ -4,8 +4,9 @@
       <div class="col-md-12">
         <div class="ibox">
           <div class="ibox-title">  
-            <span class="pull-right">(<strong>{{numberOfOrders}}</strong>) items</span>
-            <h5>Purchase manager</h5>
+            <span class="pull-right">(<strong>{{numberOfOrders}}</strong>) Order needs to be processed</span><hr>
+            <span><strong>Purchase manager</strong></span> |
+            <a href="/product/orderManagement/confirmed/{{session.idUser}}">Order has been confirmed</a>
           </div>
           {{#each listUnprocessedOrder}}
           <div class="ibox-content">
@@ -27,11 +28,11 @@
                               <dd>{{this.description}}</dd>
                           </dl>
                           <div class="m-t-sm">
-                              <a href="#" class="text-muted" data-bs-toggle="modal" data-bs-target="#exampleModal" data-bs-whatever="Your review about {{this.name}}" 
-                              data-id="{{this.idProduct}}"><i class="bi bi-check-square-fill"></i> <strong>Confirm</strong></a>
+                              <a href="#" class="text-muted interactiveBtn" data-bs-toggle="modal" data-bs-target="#confirmModal"
+                              data-id-order="{{this._id}}" data-type="Confirm" data-quantity-product="{{this.quantityToBuy}}" data-id-product="{{this.idProduct}}"><i class="bi bi-check-square-fill"> </i><strong>Confirm</strong></a>
                               |
-                              <a href="#" class="text-muted" data-bs-toggle="modal" data-bs-target="#delete-product-modal" 
-                              data-id-product-delete="{{this._id}}"><i class="bi bi-x-circle-fill"> </i><strong>Refuse</strong></a>
+                              <a href="#" class="text-muted interactiveBtn" data-bs-toggle="modal" data-bs-target="#confirmModal" 
+                              data-id-order="{{this._id}}" data-type="Refuse"><i class="bi bi-x-circle-fill"> </i><strong>Refuse</strong></a>
                           </div>
                       </td>
                       <td class="desc">
@@ -65,28 +66,81 @@
   </div>
 </div>
 
-{{!-- Modal --}}
-<div class="modal fade" id="delete-product-modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+{{!-- Confirm-Modal --}}
+<div class="modal fade" id="confirmModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Delete product</h5>
+        <h5 class="modal-title" id="modalTitle"></h5>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"
         ></button>
       </div>
       <div class="modal-body">
-        Are you sure you want to delete this product?
+        <strong id="modalBodyText"></strong>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-        <button id="deleteProduct" type="button" class="btn btn-danger">Delete</button>
+        <button id="interactOrder" type="button" class="btn btn-primary"></button>
       </div>
     </div>
   </div>
 </div>
 
-<form name="Delete-Hidden-Product" method="POST"></form>
+{{!-- Form-Submit-Hidden --}}
+<form name="Interact-Hidden-Product" method="POST">
+  <input type="hidden" name="orderStatus" id="type">
+  <input type="hidden" name="idOrder" id="idOrder">
+  <input type="hidden" name="idProduct" id="idProduct">
+  <input type="hidden" name="quantityProduct" id="quantityProduct">
+</form>
 
 <script>
-
+  document.addEventListener("DOMContentLoaded", function(){
+    let formSubmit = document.forms['Interact-Hidden-Product'];
+    let btnInteractOrder = document.querySelectorAll('.interactiveBtn')
+    let btnModal = $("#interactOrder")
+    let idOrder = $('#idOrder')
+    let type = $('#type')
+    let idProduct = $('#idProduct')
+    let quantityProduct = $('#quantityProduct')
+    let modalTitle = $('#modalTitle')
+    let modalBodyText = $('#modalBodyText')
+        // Click event handler function
+    function handleClick(event) {
+        // Go up to the parent level to find the element <a>
+        let button = event.target;
+        while (button && button.tagName !== 'A') {
+            button = button.parentNode;
+        }
+        if (button) {
+            // Get the value of the value attribute from the element <a>
+            idOrder.val(button.getAttribute('data-id-order'))
+            type.val(button.getAttribute('data-type'))
+            quantityProduct.val(button.getAttribute('data-quantity-product'))
+            idProduct.val(button.getAttribute('data-id-product'))
+            switch(type.val()){
+              case 'Confirm':
+                modalTitle.text('Order confirmation')
+                modalBodyText.text('Would you like to confirm this order?')
+                btnModal.text('Confirm')
+                break;
+              case 'Refuse': 
+                modalTitle.text('Order refuse')
+                modalBodyText.text('Would you like to refuse this order?')
+                btnModal.text('Refuse')
+                break;
+              default:
+                break;
+            }
+        }  
+    }
+    // Add click event for each button
+    btnInteractOrder.forEach(function(button) {
+        button.addEventListener('click', handleClick);
+    });
+    btnModal.click(function(){
+      formSubmit.action = "/account/profile/personalService/interactOrder?_method=PATCH"
+      formSubmit.submit()
+    })
+  })
 </script>

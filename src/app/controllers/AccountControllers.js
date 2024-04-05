@@ -58,7 +58,6 @@ class AccountControllers {
               atag: 'Click here to recover password',
               href: '/account/signUp',
               type: '-warning'
-
             })
           }     
         }
@@ -144,7 +143,7 @@ class AccountControllers {
   }
   //[GET]account/decentralization
   decentralization(req, res, next) {
-   res.render('account/decentralization')
+    res.render('account/decentralization')
   }
   //[POST]account/decentralizationProcess
   decentralizationProcess(req, res, next) {
@@ -162,7 +161,6 @@ class AccountControllers {
             nameCustomer: item.nameCustomer,
             imageCustomer: item.imageCustomer
           }
-          
         })
         OrderManagement.find({ _id: { $in: idOrders }}).lean()
           .then((unprocessedOrder)=>{
@@ -180,7 +178,28 @@ class AccountControllers {
           .catch(next) 
       })
       .catch(next)
-
+  }
+  //[PATCH] account/profile/personalService/interactOrder
+  interactOrderProcess(req, res, next){
+    if(req.body.orderStatus === 'Confirm' && req.body.quantityProduct !== null){
+      Product.findOne({_id: req.body.idProduct}).lean()
+        .then((product)=>{
+          let newQuantity = parseInt(parseInt(product.quantity )- parseInt(req.body.quantityProduct))
+          Promise.all([OrderManagement.updateOne({_id: req.body.idOrder}, {orderStatus: req.body.orderStatus}), Product.updateOne({_id: req.body.idProduct}, {quantity: newQuantity}), SalesOrderManagement.updateMany({idOrder: req.body.idOrder, orderStatus: 'Processing'}, {orderStatus: req.body.orderStatus})])
+          .then(() =>{
+            console.log('update successfully')
+            res.redirect('back')
+          })
+          .catch(next)
+        })
+        .catch(next)
+    }else {
+      Promise.all([OrderManagement.updateOne({_id: req.body.idOrder}, {orderStatus: req.body.orderStatus}), SalesOrderManagement.updateMany({idOrder: req.body.idOrder, orderStatus: 'Processing'}, {orderStatus: req.body.orderStatus})])
+      .then(() => {
+        res.redirect('back')
+      })  
+      .catch(next)
+    }  
   }
 }
 module.exports = new AccountControllers();

@@ -1,0 +1,76 @@
+.admin-table {
+  background-color: #ffffff; /* Màu nền */
+  border-radius: 10px; /* Bo tròn góc */
+  padding: 20px; /* Khoảng cách lề nội dung */
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.1); /* Đổ bóng */
+}
+
+.admin-table .table {
+  width: 100%; /* Đảm bảo bảng đầy đủ chiều rộng */
+  border-collapse: collapse; /* Loại bỏ khoảng cách giữa các ô */
+}
+
+.admin-table .table th,
+.admin-table .table td {
+  padding: 12px; /* Khoảng cách lề nội dung trong các ô */
+  text-align: center; /* Căn giữa nội dung */
+  border-bottom: 1px solid #dee2e6; /* Viền dưới */
+}
+
+.admin-table .table th {
+  background-color: #007bff; /* Màu nền đầu bảng */
+  color: #ffffff; /* Màu chữ */
+}
+
+.admin-table .table td:first-child,
+.admin-table .table th:first-child {
+  padding-left: 20px; /* Khoảng cách lề trái của cột đầu tiên */
+}
+
+.admin-table .table td:last-child,
+.admin-table .table th:last-child {
+  padding-right: 20px; /* Khoảng cách lề phải của cột cuối cùng */
+}
+
+.admin-table .table tbody tr:nth-child(odd) {
+  background-color: #f2f2f2; /* Màu nền các hàng lẻ */
+}
+
+.admin-table .table tbody tr:hover {
+  background-color: #e6e6e6; /* Màu nền khi di chuột qua hàng */
+}
+
+.admin-table .btn {
+  text-decoration: none; /* Loại bỏ gạch chân */
+  color: #007bff; /* Màu chữ */
+  background-color: transparent; /* Màu nền trong suốt */
+  border: none; /* Loại bỏ viền */
+  padding: 0; /* Loại bỏ khoảng cách lề */
+  transition: color 0.3s ease; /* Hiệu ứng chuyển động mượt mà */
+}
+
+.admin-table .btn:hover {
+  color: #0056b3; /* Màu chữ khi di chuột qua */
+}
+.admin-table .btn.edit-btn {
+  margin-right: 10px; /* Khoảng cách giữa các nút */
+}
+
+.admin-table .btn.delete-btn {
+  color: #dc3545; /* Màu chữ cho nút Delete */
+}
+
+.admin-table .btn.delete-btn:hover {
+  color: #c82333; /* Màu chữ khi di chuột qua nút Delete */
+}
+.admin-table .btn.restore-btn {
+  margin-right: 10px; /* Khoảng cách giữa các nút */
+}
+
+.admin-table .btn.destroy-btn {
+  color: #dc3545; /* Màu chữ cho nút destroy */
+}
+
+.admin-table .btn.destroy-btn:hover {
+  color: #c82333; /* Màu chữ khi di chuột qua nút Delete */
+}

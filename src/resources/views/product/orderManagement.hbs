@@ -4,9 +4,11 @@
       <div class="col-md-12">
         <div class="ibox">
           <div class="ibox-title">  
-            <span class="pull-right">(<strong>{{numberOfOrders}}</strong>) items</span>
-            <h5>Purchase manager</h5>
+            <span class="pull-right">(<strong>{{numberOfOrders}}</strong>) items</span><hr>
+            <span><strong>Purchase manager</strong></span> |
+            <a href="/product/orderManagement/confirmed/{{session.idUser}}">Order has been confirmed</a>
           </div>
+        </div>
           {{#each orderManagement}}
           <div class="ibox-content">
             <div class="table-responsive">
@@ -121,6 +123,7 @@
 <form name="Delete-Hidden-Product" method="POST"></form>
 
 <script>
+  document.addEventListener('DOMContentLoaded', function() {
   var exampleModal = document.getElementById('exampleModal')
   var deleteProductModal = document.getElementById('delete-product-modal')
   var starNumberInput = document.getElementById('starNumber')
@@ -164,4 +167,6 @@
     deleteForm.action = '/product/orderManagement/deleteOrderedProducts/' +  productID + '/?_method=DELETE';
     deleteForm.submit();
   }
+
+})
 </script>

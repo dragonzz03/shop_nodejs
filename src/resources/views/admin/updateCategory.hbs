@@ -1,7 +1,7 @@
 <div class="container">
   <div class="row">
     {{> adminListItem}}
-    <div class="col-lg-9">
+    <div class="col-lg-9 admin-table">
       <div class="mt-4">
         <h3>Category</h3>
         <a href="/admin/trash">Trash {{deletedCount}}</a>
@@ -22,10 +22,10 @@
             <tr>
               <th scope="row">{{sum @index 1}}</th>
               <td>{{this.name}}</td>
-              <td>{{this.image}}</td>
+              <td><img src="{{this.image}}" alt="Image Category" style="max-width: 100%; max-height: 100%;"></td>
               <td>{{this.createdAt}}</td>
-              <td><a href="updateCategory/{{this._id}}/editCategory" class="btn btn-link">Edit</a></td>
-              <td><a class="btn btn-link" data-bs-toggle="modal" data-bs-target="#delete-category-modal" data-id="{{this._id}}">
+              <td><a href="updateCategory/{{this._id}}/editCategory" class="btn btn-link edit-btn">Edit</a></td>
+              <td><a class="btn btn-link delete-btn" data-bs-toggle="modal" data-bs-target="#delete-category-modal" data-id="{{this._id}}">
                   Delete
               </a></td>
             </tr>
