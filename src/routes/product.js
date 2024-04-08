@@ -13,7 +13,7 @@ router.get('/allProduct', ProductController.showAllProduct);
 
 //Add Product router
 router.get('/addProduct', ProductController.addProduct);
-router.post('/addProductSuscess', ProductController.addProductSuscess);
+router.post('/addProductSuccess', ProductController.addProductSuccess);
 
 //Search Product router
 router.get('/searchResults', ProductController.searchResults);

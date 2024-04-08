@@ -184,7 +184,7 @@
       let canBuy = item.getAttribute('data-can-buy');
       //If 'data-can-buy' value is 'false', disable the element
       if (canBuy === 'false') {
-          item.querySelectorAll('input, button').forEach(function(element) {
+          item.querySelectorAll(':not(.btnInteractionCart)').forEach(function(element) {
               element.disabled = true; // Disable input and button elements
           });
         }
@@ -229,12 +229,12 @@
       //Handled when the checkboxAll button is pressed
       checkboxAll.change(function(){
         var isChecked = $(this).prop('checked')
-        cartItemCheckbox.prop('checked', isChecked).trigger('change')    
+        cartItemCheckbox.not(':disabled').prop('checked', isChecked).trigger('change')    
         renderCheckAllSubmit()
       })
       //Handled when cartItemCheckbox are clicked
       cartItemCheckbox.change(function(){
-        var isChecked = cartItemCheckbox.length === cartItemCheckbox.filter(':checked').length
+        var isChecked = cartItemCheckbox.not(':disabled').length === cartItemCheckbox.filter(':checked').length
         checkboxAll.prop('checked', isChecked)
         renderCheckAllSubmit()
         getNameProduct()

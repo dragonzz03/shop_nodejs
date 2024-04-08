@@ -75,15 +75,15 @@ class ProductController {
     //res.render('admin/addProduct');
     Categories.find({})
     .then((type) =>
-      res.render('admin/addProduct',{
+      res.render('product/addProduct',{
       type: mutipleMongooseToObject(type)
         }
       )       
     )
     .catch(next);
   }
-//[POST] product/addProductSuscess
-  addProductSuscess(req, res, next) {
+//[POST] product/addProductSuccess
+  addProductSuccess(req, res, next) {
     var productInfo = req.body;
     productInfo.idAuthor= req.session.idUser;
     const product = new Product(productInfo);

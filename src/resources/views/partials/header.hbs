@@ -7,52 +7,49 @@
       <span class="navbar-toggler-icon"></span>
     </button>
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
-      <ul class="navbar-nav ms-auto">
-        <div class="search container " style="display:{{display}};">
+      <div class="d-flex flex-grow-1 justify-content-between align-items-center">
+        <div class="search container d-lg-flex justify-content-end align-items-center me-lg-2" style="display:{{display}};">
           <form class="d-flex" action="/product/searchResults" method="GET">
             <input class="form-control me-2 search-product" type="search" placeholder="Search" aria-label="Search" name="nameProduct"/>
             <button class="btn btn-light" type="submit"><i class="bi bi-search"></i> Search</button>
           </form>
         </div>
-      {{#if session.accountName}}
-        <div class="cart-icon mt-2">
-          <a href="/product/cart">
-            <i class="bi bi-bag-check-fill cart-icon"></i>
-          </a>
-        </div>
-       {{/if}}
-        <li class="nav-item dropdown">
-          <a class="nav-link dropdown-toggle name" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-            {{#if session.accountName}}
-              <img src="{{session.image}}" alt="..." class="user-avt" >
-              {{!-- {{idUser}}               --}}
-              {{session.accountName}}
+        <ul class="navbar-nav ms-auto flex-nowrap">
+          {{#if session.accountName}}
+            <div class="cart-icon mt-2 me-lg-2">
+              <a href="/product/cart">
+                <i class="bi bi-bag-check-fill cart-icon"></i>
+              </a>
+            </div>
+          {{/if}}
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle name" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+              {{#if session.accountName}}
+                <img src="{{session.image}}" alt="..." class="user-avt me-1" >
+                {{session.accountName}}
               {{else}}
-              <span>Sign in</span>
-            {{/if}}
-          </a>
-          <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-            {{#if session.accountName}}
-            
-              {{#if session.hasPost}}
-                <li><a class="dropdown-item" href="/product/addProduct">Post products for sale</a></li>
+                <span>Sign in</span>
               {{/if}}
-              <li><a class="dropdown-item" href="/account/decentralization">Register as a service provider</a></li>
-              <li><a class="dropdown-item" href="/account/logOut">Log out</a></li>
-              <li><a class="dropdown-item" href="/account/profile">Profile</a></li>
-            {{else}}
-              <li><a class="dropdown-item" href="/account/signIn">Sign in</a></li>
-            {{/if}}
+            </a>
+            <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+              {{#if session.accountName}}
+                {{#if session.hasPost}}
+                  <li><a class="dropdown-item" href="/product/addProduct">Post products for sale</a></li>
+                {{/if}}
+                <li><a class="dropdown-item" href="/account/decentralization">Register as a service provider</a></li>
+                <li><a class="dropdown-item" href="/account/logOut">Log out</a></li>
+                <li><a class="dropdown-item" href="/account/profile">Profile</a></li>
+              {{else}}
+                <li><a class="dropdown-item" href="/account/signIn">Sign in</a></li>
+              {{/if}}
               <li><a class="dropdown-item" href="/account/signUp">Sign up</a></li>
               <li><a class="dropdown-item" href="/account/changePassword">Change Password</a></li>
-              <li>
-                <hr class="dropdown-divider" />
-              </li>
+              <li><hr class="dropdown-divider" /></li>
               <li><a class="dropdown-item" href="/account/forgetPassword">Forget Password</a></li>
-          </ul>
-        </li>
-      </ul>
+            </ul>
+          </li>
+        </ul>
+      </div>
     </div>
   </div>
 </nav>
-

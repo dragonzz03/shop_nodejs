@@ -4,7 +4,6 @@
 @import "signIn";
 @import "footer";
 @import "header";
-@import "addProduct";
 @import "cart";
 @import "checkOut";
 @import "productDetail";
@@ -13,4 +12,4 @@
 @import "admin/admin";
 @import "showProduct";
 @import "admin/adminTable.scss";
-@import "admin/adminInput.scss";
+@import "product/addProduct.scss";

@@ -81,11 +81,13 @@ class AccountControllers {
   }
   //[]POST] account/signUpProcessing
   signUpProcessing(req, res, next) {
-    const formData = req.body; 
-    const signUpProcessing = new AccountDetail(formData);
-    signUpProcessing
-      .save()
-      .then(() => res.redirect('/'))
+    console.log(req.body)
+    const formData = req.body;  
+    AccountDetail.create(formData)
+      .then(() => {
+        console.log('save account successfully')
+        res.redirect('/')
+      })
       .catch(next);
   }
   //[GET] account/changePassword
