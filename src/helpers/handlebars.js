@@ -36,7 +36,7 @@ module.exports = {
           const icon = icons[likeType]
           const type = types[likeType]
           const href = Handlebars.escapeExpression(`?_likeComment&idComment=${idComment}&type=${type}`)
-          const output = `<a href="${href}">
+          const output = `<a href="${href}" onclick="preventDefault(event)">
                   <i class="bi bi-hand-thumbs-up${icon}"></i>
                   </a>`
           return new Handlebars.SafeString(output);
@@ -56,9 +56,10 @@ module.exports = {
             const icon = icons[disLikeType]
             const type = types[disLikeType]
             const href = Handlebars.escapeExpression(`?_likeComment&idComment=${idComment}&type=${type}`)
-            const output = `<a href="${href}">
+            const output = `<a href="${href}" onclick="preventDefault(event)">
                     <i class="bi bi-hand-thumbs-down${icon}"></i>
                     </a>`
+              
             return new Handlebars.SafeString(output);
         },
         checkIdComment: (idComment, isIdComment) =>{

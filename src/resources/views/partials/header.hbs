@@ -53,3 +53,55 @@
     </div>
   </div>
 </nav>
+
+
+
+
+{{!-- <div class="wrapper">
+        <header>
+          <nav>
+              <div class="menu-icon">
+                <i class="fa fa-bars fa-2x"></i>
+              </div>
+              <div class="logo">
+                LOGO
+              </div>
+              <div class="menu">
+                <ul>
+                    {{#if session.accountName}}
+                    <li><a class="" href="/account/profile">Profile</a></li>
+                    <li><a class="" href="/account/signUp">Sign up</a></li>
+                    <li><a class="" href="/account/changePassword">Change Password</a></li>
+                    <li><a class="" href="/account/forgetPassword">Forget Password</a></li>
+                    <li><a class="" href="/account/logOut">Log out</a></li>
+                    {{else}}
+                    <li><a href="/account/signIn">Sign in</a></li>
+                    {{/if}}
+                    
+                </ul>
+              </div>
+          </nav>
+        </header>
+    
+    </div>
+
+
+<script>
+$(document).ready(function() {
+            $(".menu-icon").on("click", function() {
+                  $("nav ul").toggleClass("showing");
+            });
+      });
+
+      // Scrolling Effect
+
+      $(window).on("scroll", function() {
+            if($(window).scrollTop()) {
+                  $('nav').addClass('black');
+            }
+
+            else {
+                  $('nav').removeClass('black');
+            }
+      })
+</script> --}}
